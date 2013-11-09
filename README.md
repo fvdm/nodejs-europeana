@@ -11,6 +11,11 @@ Unofficial Node.js module for the Europeana API. Search and lookup art in variou
 Installation
 ------------
 
+The version on npm is always tested and stable.
+
+	npm install europeana
+
+
 The source on Github is the most recent code but can be unreliable.
 
 	npm install git+https://github.com/fvdm/nodejs-europeana
