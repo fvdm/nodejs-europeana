@@ -80,6 +80,12 @@ function talk( path, fields, callback ) {
 		}
 	}
 	
+	// check API key
+	if( ! module.exports.apikey ) {
+		doCallback( new Error('apikey missing') )
+		return
+	}
+	
 	// build request
 	fields.wskey = module.exports.apikey
 	
