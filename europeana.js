@@ -105,7 +105,7 @@ function talk( path, fields, callback ) {
 	
 	// request timeout
 	request.on( 'socket', function( socket ) {
-		socket.setTimeout( module.exports.requestTimeout )
+		socket.setTimeout( module.exports.timeout )
 		socket.on( 'timeout', function() {
 			request.abort()
 			doCallback( new Error('request timeout') )
