@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name":               "Franklin van de Meent",
+    "email":              "fr@nkl.in",
+    "url":                "http://frankl.in"
+  },
+  "name":                 "europeana",
+  "description":          "Unofficial module for Europeana API",
+  "version":              "1.0.0",
+  "repository": {
+    "type":               "git",
+    "url":                "git://github.com/fvdm/nodejs-europeana.git"
+  },
+  "bugs": {
+    "url":                "https://github.com/fvdm/nodejs-europeana/issues"
+  },
+  "main":                 "europeana.js",
+  "dependencies":         {},
+  "devDependencies":      {},
+  "optionalDependencies": {},
+  "engines": {
+    "node":               "*"
+  },
+  "keywords":             ["europeana", "art", "api"],
+  "license": {
+    "type":               "Public Domain",
+    "url":                "https://github.com/fvdm/nodejs-europeana/raw/master/UNLICENSE"
+  }
+}
