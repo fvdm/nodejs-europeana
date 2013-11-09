@@ -30,6 +30,7 @@ var errors = {
 
 
 // get one item
+// http://www.europeana.eu/portal/api-record-json.html
 module.exports.record = function( id, profile, callback ) {
 	if( typeof profile === 'function' ) {
 		var callback = profile
@@ -40,6 +41,7 @@ module.exports.record = function( id, profile, callback ) {
 }
 
 // search items
+// http://www.europeana.eu/portal/api-search-json.html
 module.exports.search = function( query, vars, callback ) {
 	if( typeof vars === 'function' ) {
 		var callback = vars
@@ -51,6 +53,7 @@ module.exports.search = function( query, vars, callback ) {
 }
 
 // livesearch suggestions
+// http://www.europeana.eu/portal/api-suggestions-json.html
 module.exports.suggestions = function( query, rows, callback ) {
 	if( typeof rows === 'function' ) {
 		var callback = rows
@@ -59,6 +62,7 @@ module.exports.suggestions = function( query, rows, callback ) {
 	
 	talk( 'suggestions', {query: query, rows: rows}, callback )
 }
+
 
 // communicate with the API
 function talk( path, fields, callback ) {
