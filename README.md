@@ -4,6 +4,7 @@ europeana
 Unofficial Node.js module for the Europeana API. Search and lookup art in various archives across Europe.
 
 [Europeana](http://europeana.eu/)
+
 [API documentation](http://europeana.eu/portal/api-introduction.html)
 
 
