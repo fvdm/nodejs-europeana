@@ -31,6 +31,47 @@ europeana.apikey = 'abc123'
 ```
 
 
+Callback
+--------
+
+Each method requires a callback _function_ to receive the results.
+
+It receives two parameters: `err` and `data`.
+
+	err    Instance of Error, includes stack trace.
+	       Set on error, else `null`
+	       Properties when available: code, error
+	       
+	data   Result object.
+	       Set if no error
+	
+
+#### Example
+
+```js
+function myCallback( error, data ) {
+	if( err ) {
+		console.log( error, error.stack )
+	} else {
+		console.log( data )
+	}
+}
+
+europeana.search( 'vincent van gogh', myCallback )
+```
+
+
+#### Errors
+
+	apikey missing     You did not set your API key
+	request failed     The request failed, see err.error
+	request timeout    The request took too long.
+	request dropped    The request ended too early
+	invalid response   API returned invalid data
+	API error          API returned an error, see err.error and err.code
+	unknown error      An unknown error occurred, please submit a ticket in the Github repo
+
+
 record ( id, [profile], callback )
 ----------------------------------
 
