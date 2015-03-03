@@ -104,8 +104,8 @@ queue.push (function () {
 
 queue.push (function () {
   var props = {
-    query: testData.query,
-    rows: testData.rows
+    query: 'laurent de la hyre',
+    rows: 10
   };
   app ('suggestions', props, function (err, res) {
     doTest (err, 'suggestions', [
