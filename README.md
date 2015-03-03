@@ -5,7 +5,8 @@ Unofficial Node.js module for the Europeana API. Search and lookup art in variou
 
 [Europeana](http://europeana.eu/)
 
-[API documentation](http://europeana.eu/portal/api-introduction.html)
+* [Europeana](http://europeana.eu/)
+* [API documentation](http://europeana.eu/portal/api-introduction.html)
 
 
 Installation
