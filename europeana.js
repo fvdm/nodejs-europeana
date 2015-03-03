@@ -8,7 +8,7 @@ License:      Public Domain / Unlicense (see UNLICENSE file)
               (https://github.com/fvdm/nodejs-europeana/raw/master/UNLICENSE)
 */
 
-var http = require ('http') .request;
+var http = require ('http');
 var querystring = require ('querystring');
 module.exports = {};
 
@@ -70,10 +70,10 @@ function talk (path, fields, callback) {
 
   // prevent multiple callbacks
   var complete = false;
-  function doCallback (err, res, meta) {
+  function doCallback (err, res) {
     if (!complete) {
       complete = true;
-      callback (err || null, res || null, meta || null);
+      callback (err, res);
     }
   }
 
@@ -89,6 +89,7 @@ function talk (path, fields, callback) {
   var query = '?'+ querystring.stringify (fields);
 
   var options = {
+    protocol: 'http:',
     host: 'europeana.eu',
     path: '/api/v2/'+ path +'.json'+ query,
     method: 'GET',
@@ -97,7 +98,7 @@ function talk (path, fields, callback) {
     }
   };
 
-  var request = http (options);
+  var request = http.request (options);
 
   // request failed
   request.on ('error', function (error) {
@@ -117,7 +118,8 @@ function talk (path, fields, callback) {
 
   // response
   request.on ('response', function (response) {
-    var data = '';
+    var data = [];
+    var size = 0;
 
     // too early disconnected
     response.on ('close', function () {
@@ -126,46 +128,44 @@ function talk (path, fields, callback) {
 
     // receiving data
     response.on ('data', function (ch) {
-      data += ch;
+      data.push (ch);
+      size += ch.length;
     });
 
     // process response data
     response.on ('end', function () {
-      data = data.trim ();
+      var er = null;
+      data = Buffer.concat (data, size) .toString () .trim ();
 
       if (response.statusCode !== 200) {
-        var er = new Error ('API error');
+        er = new Error ('API error');
         er.code = response.statusCode;
         er.error = errors [response.statusCode];
 
-        if (!!~data.indexOf ('<h1>HTTP Status ')) {
+        if (data.match (/<h1>HTTP Status /)) {
           er.error = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
         }
-        doCallback (er);
       } else {
         try {
-          // json
           data = JSON.parse (data);
+          if (!data.success && data.error) {
+            er = new Error ('API error');
+            err.error = data.error;
+            err.data = data;
+            data = null;
+          }
         } catch (reason) {
           // can't read this
-          var er = new Error ('invalid response');
+          er = new Error ('invalid response');
           er.error = reason;
           er.data = data;
-          doCallback (er);
-        }
-
-        if (data && !data.success && data.error) {
-          var er = new Error ('API error');
-          er.error = data.error;
-          doCallback (er);
-        } else if (data) {
-          doCallback (null, data);
-        } else {
-          doCallback (new Error ('unknown error'));
+          data = null;
         }
       }
-    })
-  })
+
+      doCallback (er, data);
+    });
+  });
 
   // do it
   request.end ();

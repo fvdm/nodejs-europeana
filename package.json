@@ -19,9 +19,9 @@
   "devDependencies":      {},
   "optionalDependencies": {},
   "engines": {
-    "node":               "*"
+    "node":               ">=0.8.0"
   },
-  "keywords":             ["europeana", "art", "api"],
+  "keywords":             ["europeana", "art", "history", "api"],
   "license": {
     "type":               "Public Domain",
     "url":                "https://github.com/fvdm/nodejs-europeana/raw/master/UNLICENSE"
