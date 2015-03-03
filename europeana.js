@@ -144,4 +144,6 @@ function talk (path, fields, callback) {
       doCallback (er, data);
     });
   });
+
+  request.end ();
 }
