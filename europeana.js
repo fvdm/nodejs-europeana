@@ -87,7 +87,7 @@ function talk (path, fields, callback) {
     });
   });
 
-  request.on ('error', function onError (e) {
+  request.on ('error', function onError (error) {
     var err = new Error ('request failed');
     err.error = error;
     doCallback (err);
