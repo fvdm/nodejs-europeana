@@ -3,8 +3,8 @@ var util = require ('util');
 // Setup
 // $ env EUROPEANA_KEY= EUROPEANA_TIMEOUT= npm test
 var app = require ('./') (
-  app.apikey = process.env.EUROPEANA_APIKEY || null,
-  app.timeout = process.env.EUROPEANA_TIMEOUT || 5000
+  process.env.EUROPEANA_APIKEY || null,
+  process.env.EUROPEANA_TIMEOUT || 5000
 );
 
 
