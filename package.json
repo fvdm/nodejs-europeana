@@ -21,6 +21,9 @@
   "engines": {
     "node":               ">=0.8.0"
   },
+  "scripts": {
+    "test":               "node test.js"
+  },
   "keywords":             ["europeana", "art", "history", "api"],
   "license": {
     "type":               "Public Domain",
