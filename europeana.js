@@ -56,7 +56,7 @@ function talk (path, fields, callback) {
   // Request
 
   // check API key
-  if (!module.exports.apikey) {
+  if (!settings.apikey) {
     doCallback (new Error ('apikey missing'));
     return;
   }
