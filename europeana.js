@@ -38,9 +38,6 @@ var errors = {
 
 // communicate with the API
 function talk (path, fields, callback) {
-  var data = [];
-  var size = 0;
-
   if (typeof fields === 'function') {
     callback = fields;
     fields = {};
@@ -53,70 +50,6 @@ function talk (path, fields, callback) {
       complete = true;
       callback (err, res);
     }
-  }
-
-
-  // Handlers
-  function onSocket (socket) {
-    socket.setTimeout (parseInt (settings.timeout));
-    socket.on ('timeout', function () {
-      doCallback (new Error ('request timeout'));
-      request.abort ();
-    });
-  }
-
-  function onError (e) {
-    var err = new Error ('request failed');
-    err.error = error;
-    doCallback (err);
-  }
-
-  function onResponse (response) {
-    response.on ('close', onClose);
-    response.on ('data', onData);
-    response.on ('end', onEnd);
-  }
-
-  function onClose () {
-    doCallback (new Error ('request dropped'));
-  }
-
-  function onData (ch) {
-    data.push (ch);
-    size += ch.length;
-  }
-
-  function onEnd () {
-    var er = null;
-    data = Buffer.concat (data, size) .toString () .trim ();
-
-    if (response.statusCode !== 200) {
-      er = new Error ('API error');
-      er.code = response.statusCode;
-      er.error = errors [response.statusCode];
-
-      if (data.match (/<h1>HTTP Status /)) {
-        er.error = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
-      }
-    } else {
-      try {
-        data = JSON.parse (data);
-        if (!data.success && data.error) {
-          er = new Error ('API error');
-          err.error = data.error;
-          err.data = data;
-          data = null;
-        }
-      } catch (reason) {
-        // can't read this
-        er = new Error ('invalid response');
-        er.error = reason;
-        er.data = data;
-        data = null;
-      }
-    }
-
-    doCallback (er, data);
   }
 
 
@@ -143,8 +76,72 @@ function talk (path, fields, callback) {
   };
 
   var request = http.request (options);
-  request.on ('error', onError);
-  request.on ('socket', onSocket);
-  request.on ('response', onResponse);
-  request.end ();
+
+
+  // Handlers
+  request.on ('socket', function onSocket (socket) {
+    socket.setTimeout (parseInt (settings.timeout));
+    socket.on ('timeout', function () {
+      doCallback (new Error ('request timeout'));
+      request.abort ();
+    });
+  });
+
+  request.on ('error', function onError (e) {
+    var err = new Error ('request failed');
+    err.error = error;
+    doCallback (err);
+  });
+
+  request.on ('response', function onResponse (response) {
+    var data = [];
+    var size = 0;
+
+    response.on ('close', function onClose () {
+      doCallback (new Error ('request dropped'));
+    });
+  
+    response.on ('data', function onData (ch) {
+      data.push (ch);
+      size += ch.length;
+    });
+  
+    response.on ('end', function onEnd () {
+      var er = null;
+      data = Buffer.concat (data, size) .toString () .trim ();
+
+      if (response.statusCode !== 200) {
+        er = new Error ('API error');
+        er.code = response.statusCode;
+        er.error = errors [response.statusCode];
+  
+        if (data.match (/<h1>HTTP Status /)) {
+          er.error = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
+        }
+      } else {
+        try {
+          data = JSON.parse (data);
+
+          if (data.apikey) {
+            delete data.apikey;
+          }
+
+          if (!data.success && data.error) {
+            er = new Error ('API error');
+            err.error = data.error;
+            err.data = data;
+            data = null;
+          }
+        } catch (reason) {
+          // can't read this
+          er = new Error ('invalid response');
+          er.error = reason;
+          er.data = data;
+          data = null;
+        }
+      }
+  
+      doCallback (er, data);
+    });
+  });
 }
