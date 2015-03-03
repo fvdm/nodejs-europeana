@@ -70,17 +70,10 @@ function doTest (err, label, tests) {
   doNext ();
 }
 
-var testData = {
-  query: 'who:"laurent de la hyre"',
-  rows: 10,
-  profile: 'full',
-  id: '/9200365/BibliographicResource_1000055039444'
-}
-
 
 queue.push (function () {
   var props = {
-    query: testData.query
+    query: 'who:"laurent de la hyre"'
   };
   app ('search', props, function (err, res) {
     doTest (err, 'search', [
@@ -92,9 +85,9 @@ queue.push (function () {
 
 queue.push (function () {
   var props = {
-    profile: testData.profile
+    profile: 'params'
   };
-  app ('record'+ testData.id, props, function (err, res) {
+  app ('record/9200365/BibliographicResource_1000055039444', props, function (err, res) {
     doTest (err, 'record', [
       ['data type', typeof res === 'object']
     ]);
