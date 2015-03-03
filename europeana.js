@@ -93,7 +93,7 @@ function talk (path, fields, callback) {
     path: '/api/v2/'+ path +'.json'+ query,
     method: 'GET',
     headers: {
-      'User-Agent': 'europeana.js (https://bitbucket.org/fvdm/nodejs-europeana)'
+      'User-Agent': 'europeana.js'
     }
   };
 
