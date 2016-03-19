@@ -30,9 +30,17 @@ var errors = {
 
 // communicate with the API
 function talk (path, fields, callback) {
+  var options = {
+    url: 'http://europeana.eu/api/v2/' + path + '.json',
+    parameters: fields,
+    headers: {
+      'User-Agent': 'europeana.js'
+    }
+  };
+
   if (typeof fields === 'function') {
     callback = fields;
-    fields = {};
+    option.parameters = {};
   }
 
   // Request
@@ -42,15 +50,6 @@ function talk (path, fields, callback) {
     callback (new Error ('apikey missing'));
     return;
   }
-
-  // build request
-  var options = {
-    url: 'http://europeana.eu/api/v2/' + path + '.json',
-    parameters: fields,
-    headers: {
-      'User-Agent': 'europeana.js'
-    }
-  };
 
   options.parameters.wskey = settings.apikey;
 
