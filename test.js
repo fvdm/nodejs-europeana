@@ -1,5 +1,5 @@
 var doTest = require ('dotest');
-var app = require ('app');
+var app = require ('./');
 
 // Setup
 // $ EUROPEANA_KEY=abc123 npm test
