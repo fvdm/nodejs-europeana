@@ -6,7 +6,7 @@ Unofficial Node.js module for the Europeana API. Search and lookup art in variou
 [![Build Status](https://travis-ci.org/fvdm/nodejs-europeana.svg?branch=master)](https://travis-ci.org/fvdm/nodejs-europeana)
 
 * [Europeana](http://europeana.eu/)
-* [API documentation](http://europeana.eu/portal/api-introduction.html)
+* [API documentation](http://labs.europeana.eu/api)
 
 
 Example
