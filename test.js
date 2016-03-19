@@ -34,7 +34,9 @@ doTest.add ('record', function () {
   });
 });
 
-
+/*
+// Suggestions in unavailable
+// http://labs.europeana.eu/api/suggestions
 doTest.add ('suggestions', function () {
   var props = {
     query: 'laurent de la hyre',
@@ -47,6 +49,7 @@ doTest.add ('suggestions', function () {
       .done ();
   });
 });
+*/
 
 
 // Start the tests
