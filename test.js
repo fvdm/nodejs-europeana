@@ -1,11 +1,20 @@
 var doTest = require ('dotest');
+var app = require ('app');
 
 // Setup
 // $ EUROPEANA_KEY=abc123 npm test
-var app = require ('./') (
+var europeana = app (
   process.env.EUROPEANA_APIKEY || null,
   process.env.EUROPEANA_TIMEOUT || 5000
 );
+
+
+doTest.add ('Module', function () {
+  doTest.test ()
+    .isFunction ('fail', 'exports', app)
+    .isFunction ('fail', 'module', europeana)
+    .done ();
+});
 
 
 doTest.add ('search', function () {
@@ -13,7 +22,7 @@ doTest.add ('search', function () {
     query: 'who:"laurent de la hyre"'
   };
 
-  app ('search', props, function (err, data) {
+  europeana ('search', props, function (err, data) {
     doTest.test (err)
       .isObject ('fail', 'data', data)
       .done ();
@@ -27,7 +36,7 @@ doTest.add ('record', function () {
     profile: 'params'
   };
 
-  app ('record/' + record, props, function (err, data) {
+  europeana ('record/' + record, props, function (err, data) {
     doTest.test (err)
       .isObject ('fail', 'data', data)
       .done ();
