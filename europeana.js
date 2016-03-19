@@ -40,7 +40,7 @@ function talk (path, fields, callback) {
 
   if (typeof fields === 'function') {
     callback = fields;
-    option.parameters = {};
+    options.parameters = {};
   }
 
   // Request
