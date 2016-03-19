@@ -8,8 +8,7 @@ License:      Public Domain / Unlicense (see UNLICENSE file)
               (https://github.com/fvdm/nodejs-europeana/raw/master/UNLICENSE)
 */
 
-var http = require ('http');
-var querystring = require ('querystring');
+var http = require ('httpreq');
 
 var settings = {
   apikey: null,
@@ -43,107 +42,77 @@ function talk (path, fields, callback) {
     fields = {};
   }
 
-  // prevent multiple callbacks
-  var complete = false;
-  function doCallback (err, res) {
-    if (!complete) {
-      complete = true;
-      callback (err, res);
-    }
-  }
-
-
   // Request
 
   // check API key
   if (!settings.apikey) {
-    doCallback (new Error ('apikey missing'));
+    callback (new Error ('apikey missing'));
     return;
   }
 
   // build request
-  fields.wskey = settings.apikey;
-  var query = '?'+ querystring.stringify (fields);
-
   var options = {
-    protocol: 'http:',
-    host: 'europeana.eu',
-    path: '/api/v2/'+ path +'.json'+ query,
-    method: 'GET',
+    url: 'http://europeana.eu/api/v2/' + path + '.json',
+    parameters: fields,
     headers: {
       'User-Agent': 'europeana.js'
     }
   };
 
-  var request = http.request (options);
+  options.parameters.wskey = settings.apikey;
 
+  http.get (options, function (err, res) {
+    var data = res && res.body || '';
+    var error = null;
 
-  // Handlers
-  request.on ('socket', function onSocket (socket) {
-    socket.setTimeout (parseInt (settings.timeout));
-    socket.on ('timeout', function () {
-      doCallback (new Error ('request timeout'));
-      request.abort ();
-    });
-  });
+    // client failed
+    if (err) {
+      error = new Error ('request failed');
+      error.error = err;
+      callback (error);
+      return;
+    }
 
-  request.on ('error', function onError (error) {
-    var err = new Error ('request failed');
-    err.error = error;
-    doCallback (err);
-  });
+    // http error
+    if (response.statusCode !== 200) {
+      error = new Error ('API error');
+      error.code = response.statusCode;
+      error.error = errors [response.statusCode];
 
-  request.on ('response', function onResponse (response) {
-    var data = [];
-    var size = 0;
-
-    response.on ('close', function onClose () {
-      doCallback (new Error ('request dropped'));
-    });
-  
-    response.on ('data', function onData (ch) {
-      data.push (ch);
-      size += ch.length;
-    });
-  
-    response.on ('end', function onEnd () {
-      var er = null;
-      data = Buffer.concat (data, size) .toString () .trim ();
-
-      if (response.statusCode !== 200) {
-        er = new Error ('API error');
-        er.code = response.statusCode;
-        er.error = errors [response.statusCode];
-  
-        if (data.match (/<h1>HTTP Status /)) {
-          er.error = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
-        }
-      } else {
-        try {
-          data = JSON.parse (data);
-
-          if (data.apikey) {
-            delete data.apikey;
-          }
-
-          if (!data.success && data.error) {
-            er = new Error ('API error');
-            err.error = data.error;
-            err.data = data;
-            data = null;
-          }
-        } catch (reason) {
-          // can't read this
-          er = new Error ('invalid response');
-          er.error = reason;
-          er.data = data;
-          data = null;
-        }
+      if (data.match (/<h1>HTTP Status /)) {
+        error.error = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
       }
-  
-      doCallback (er, data);
-    });
-  });
 
-  request.end ();
+      callback (error);
+      return;
+    }
+
+    try {
+      data = JSON.parse (data);
+
+      if (data.apikey) {
+        delete data.apikey;
+      }
+
+      // API error
+      if (!data.success && data.error) {
+        error = new Error ('API error');
+        error.error = data.error;
+        error.data = data;
+
+        callback (error);
+        return;
+      }
+    } catch (reason) {
+      error = new Error ('invalid response');
+      error.error = reason;
+      error.data = data;
+
+      callback (error);
+      return;
+    }
+
+    // all good
+    callback (null, data);
+  });
 }
