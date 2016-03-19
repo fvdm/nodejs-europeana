@@ -25,6 +25,7 @@ doTest.add ('search', function () {
   europeana ('search', props, function (err, data) {
     doTest.test (err)
       .isObject ('fail', 'data', data)
+      .isNotEmpty ('warn', 'data', data)
       .done ();
   });
 });
@@ -39,9 +40,11 @@ doTest.add ('record', function () {
   europeana ('record/' + record, props, function (err, data) {
     doTest.test (err)
       .isObject ('fail', 'data', data)
+      .isNotEmpty ('warn', 'data', data)
       .done ();
   });
 });
+
 
 /*
 // Suggestions in unavailable
