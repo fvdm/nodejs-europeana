@@ -67,10 +67,10 @@ function talk (path, fields, callback) {
     }
 
     // http error
-    if (response.statusCode !== 200) {
+    if (res.statusCode !== 200) {
       error = new Error ('API error');
-      error.code = response.statusCode;
-      error.error = errors [response.statusCode];
+      error.code = res.statusCode;
+      error.error = errors [res.statusCode];
 
       if (data.match (/<h1>HTTP Status /)) {
         error.error = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
