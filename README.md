@@ -40,7 +40,7 @@ Installation
 Configuration
 -------------
 
-You _must_ specify an API key which you can request **[here](http://europeana.eu/portal/api/registration.html)**
+You _must_ specify an API key which you can request **[here](http://labs.europeana.eu/api/registration)**
 
 param   | type   | required | default | description
 :-------|:-------|:---------|:--------|:----------------------
