@@ -2,10 +2,10 @@
   "author": {
     "name": "Franklin van de Meent",
     "email": "fr@nkl.in",
-    "url": "http://frankl.in"
+    "url": "https://frankl.in"
   },
   "name": "europeana",
-  "description": "Unofficial module for Europeana API",
+  "description": "Access the Europeana API (unofficial)",
   "version": "1.0.0",
   "repository": {
     "type": "git",
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "eslint": "^2.0.0",
-    "dotest": "^1.0"
+    "dotest": "^1.0.0"
   },
   "optionalDependencies": {},
   "engines": {
