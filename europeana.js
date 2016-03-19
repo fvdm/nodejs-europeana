@@ -34,6 +34,7 @@ function talk (path, fields, callback) {
     method: 'GET',
     url: 'http://europeana.eu/api/v2/' + path + '.json',
     parameters: fields,
+    timeout: settings.timeout,
     headers: {
       'User-Agent': 'europeana.js'
     }
