@@ -65,12 +65,10 @@ Each method requires a callback _function_ to receive the results.
 
 It receives two parameters: `err` and `data`.
 
-  err    Instance of Error, includes stack trace.
-         Set on error, else `null`
-         Properties when available: code, error
-         
-  data   Result object.
-         Set if no error
+property | type   | default | description
+:--------|:-------|:--------|:-----------------------------
+err      | Error  | null    | Includes `.code` and `.error`
+data     | Object |         | Result object
 
 
 #### Example
