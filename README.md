@@ -96,10 +96,12 @@ europeana ('search', { query: 'vincent van gogh' }, myCallback);
 
 #### Errors
 
-   apikey missing     You did not set your API key
-   request failed     The request failed, see err.error
-   invalid response   API returned invalid data
-   API error          API returned an error, see err.error and err.code
+message          | description                  | additional
+:----------------|:-----------------------------|:-----------------------
+apikey missing   | You did not set your API key |
+request failed   | The request failed           | `err.error`
+invalid response | API returned invalid data    |
+API error        | API returned an error        | `err.error`, `err.code`
 
 
 Unlicense
