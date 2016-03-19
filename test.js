@@ -43,7 +43,7 @@ doTest.add ('suggestions', function () {
 
   app ('suggestions', props, function (err, data) {
     doTest.test (err)
-      .isObject ('fail', 'data', data);
+      .isObject ('fail', 'data', data)
       .done ();
   });
 });
