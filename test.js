@@ -27,7 +27,7 @@ doTest.add ('record', function () {
     profile: 'params'
   };
 
-  app ('record/' + record props, function (err, data) {
+  app ('record/' + record, props, function (err, data) {
     doTest.test (err)
       .isObject ('fail', 'data', data)
       .done ();
