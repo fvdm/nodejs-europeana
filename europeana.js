@@ -15,13 +15,6 @@ var settings = {
   timeout: 5000
 };
 
-// config
-module.exports = function setup (apikey, timeout) {
-  settings.apikey = apikey || null;
-  settings.timeout = timeout || settings.timeout;
-  return talk;
-};
-
 
 // errors
 // http://www.europeana.eu/portal/api-working-with-api.html#Error-Codes
@@ -116,3 +109,11 @@ function talk (path, fields, callback) {
     callback (null, data);
   });
 }
+
+
+// config
+module.exports = function setup (apikey, timeout) {
+  settings.apikey = apikey || null;
+  settings.timeout = timeout || settings.timeout;
+  return talk;
+};
