@@ -16,7 +16,9 @@
   },
   "main":                 "europeana.js",
   "dependencies":         {},
-  "devDependencies":      {},
+  "devDependencies": {
+    "dotest": "^1.0.0"
+  },
   "optionalDependencies": {},
   "engines": {
     "node":               ">=0.8.0"
