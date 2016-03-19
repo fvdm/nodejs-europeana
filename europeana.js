@@ -31,6 +31,7 @@ var errors = {
 // communicate with the API
 function talk (path, fields, callback) {
   var options = {
+    method: 'GET',
     url: 'http://europeana.eu/api/v2/' + path + '.json',
     parameters: fields,
     headers: {
@@ -53,7 +54,7 @@ function talk (path, fields, callback) {
 
   options.parameters.wskey = settings.apikey;
 
-  http.get (options, function (err, res) {
+  http.doRequest (options, function (err, res) {
     var data = res && res.body || '';
     var error = null;
 
