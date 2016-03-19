@@ -15,7 +15,9 @@
     "url":                "https://github.com/fvdm/nodejs-europeana/issues"
   },
   "main":                 "europeana.js",
-  "dependencies":         {},
+  "dependencies": {
+    "httpreq": "^0.4.16"
+  },
   "devDependencies": {
     "dotest": "^1.0.0"
   },
