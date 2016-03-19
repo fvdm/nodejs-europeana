@@ -88,7 +88,6 @@ function myCallback (err, data) {
   console.dir (data, set);
 }
 
-
 // Search
 europeana ('search', { query: 'vincent van gogh' }, myCallback);
 ```
