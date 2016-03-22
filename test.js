@@ -62,6 +62,33 @@ doTest.add ('translateQuery', function () {
 });
 
 
+doTest.add ('providers normal', function () {
+  europeana ('providers', function (err, data) {
+    doTest.test (err)
+      .isObject ('fail', 'data', data)
+      .isNotEmpty ('warn', 'data', data)
+      .isArray ('warn', 'data.items', data && data.items)
+      .done ();
+  });
+});
+
+
+doTest.add ('providers params', function () {
+  var params = {
+    pagesize: 3
+  };
+
+  europeana ('providers', params, function (err, data) {
+    doTest.test (err)
+      .isObject ('fail', 'data', data)
+      .isNotEmpty ('warn', 'data', data)
+      .isArray ('warn', 'data.items', data && data.items)
+      .isExactly ('warn', 'data.items.length', data && data.items && data.items.length, 3)
+      .done ();
+  });
+});
+
+
 /*
 // Suggestions in unavailable
 // http://labs.europeana.eu/api/suggestions
