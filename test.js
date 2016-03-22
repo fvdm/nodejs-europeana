@@ -46,6 +46,22 @@ doTest.add ('record', function () {
 });
 
 
+doTest.add ('translateQuery', function () {
+  var props = {
+    languageCodes: 'nl,en,hu',
+    term: 'painting'
+  };
+
+  europeana ('translateQuery', props, function (err, data) {
+    doTest.test (err)
+      .isObject ('fail', 'data', data)
+      .isNotEmpty ('warn', 'data', data)
+      .isArray ('warn', 'data.translations', data && data.translations)
+      .done ();
+  });
+});
+
+
 /*
 // Suggestions in unavailable
 // http://labs.europeana.eu/api/suggestions
