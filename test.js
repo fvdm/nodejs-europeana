@@ -3,10 +3,10 @@ var app = require ('./');
 
 // Setup
 // $ EUROPEANA_KEY=abc123 npm test
-var europeana = app (
-  process.env.EUROPEANA_APIKEY || null,
-  process.env.EUROPEANA_TIMEOUT || 5000
-);
+var apikey = process.env.EUROPEANA_APIKEY || null;
+var timeout = process.env.EUROPEANA_TIMEOUT || 5000;
+
+var europeana = app (apikey, timeout);
 
 
 doTest.add ('Module', function () {
@@ -14,6 +14,18 @@ doTest.add ('Module', function () {
     .isFunction ('fail', 'exports', app)
     .isFunction ('fail', 'module', europeana)
     .done ();
+});
+
+
+doTest.add ('API key', function () {
+  if (!apikey) {
+    doTest.log ('fail', 'EUROPEANA_APIKEY is not set');
+    doTest.exit ();
+  } else {
+    doTest.log ('good', 'EUROPEANA_APIKEY is set');
+    doTest.test ()
+      .done ();
+  }
 });
 
 
