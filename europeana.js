@@ -32,7 +32,7 @@ var errors = {
 function talk (path, fields, callback) {
   var options = {
     method: 'GET',
-    url: 'http://europeana.eu/api/v2/' + path + '.json',
+    url: 'https://www.europeana.eu/api/v2/' + path + '.json',
     parameters: fields,
     timeout: settings.timeout,
     headers: {
