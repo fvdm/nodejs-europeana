@@ -108,4 +108,4 @@ doTest.add ('suggestions', function () {
 
 
 // Start the tests
-doTest.run (2000);
+doTest.run ();
