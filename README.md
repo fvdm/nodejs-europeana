@@ -3,6 +3,7 @@ europeana
 
 Unofficial Node.js module for the Europeana API. Search and lookup art in various archives across Europe.
 
+[![npm](https://img.shields.io/npm/v/bolcom.svg?maxAge=3600)](https://github.com/fvdm/nodejs-bolcom/blob/master/CHANGELOG.md)
 [![Build Status](https://travis-ci.org/fvdm/nodejs-europeana.svg?branch=master)](https://travis-ci.org/fvdm/nodejs-europeana)
 
 * [Europeana](http://europeana.eu/)
