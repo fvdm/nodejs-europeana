@@ -79,11 +79,13 @@ dotest.add ('providers params', function (test) {
   };
 
   europeana ('providers', params, function (err, data) {
+    var items = data && data.items;
+
     test (err)
       .isObject ('fail', 'data', data)
       .isNotEmpty ('warn', 'data', data)
-      .isArray ('warn', 'data.items', data && data.items)
-      .isExactly ('warn', 'data.items.length', data && data.items && data.items.length, 3)
+      .isArray ('warn', 'data.items', items)
+      .isExactly ('warn', 'data.items.length', items && items.length, 3)
       .done ();
   });
 });
