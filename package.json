@@ -6,7 +6,7 @@
   },
   "name": "europeana",
   "description": "Access the Europeana API (unofficial)",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/fvdm/nodejs-europeana.git"
