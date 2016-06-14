@@ -91,19 +91,6 @@ dotest.add ('providers params', function (test) {
 });
 
 
-dotest.add ('Error: apikey missing', function (test) {
-  var tmp = app ();
-
-  tmp ('providers', function (err, data) {
-    test ()
-      .isError ('fail', 'err', err)
-      .isExactly ('fail', 'err.message', err && err.message, 'apikey missing')
-      .isUndefined ('fail', 'data', data)
-      .done ();
-  });
-});
-
-
 dotest.add ('Error: API error', function (test) {
   europeana ('record/-', function (err, data) {
     test ()
@@ -111,6 +98,19 @@ dotest.add ('Error: API error', function (test) {
       .isExactly ('fail', 'err.message', err && err.message, 'API error')
       .isNumber ('fail', 'err.code', err && err.code)
       .isString ('fail', 'err.error', err && err.error)
+      .isUndefined ('fail', 'data', data)
+      .done ();
+  });
+});
+
+
+dotest.add ('Error: apikey missing', function (test) {
+  var tmp = app ();
+
+  tmp ('providers', function (err, data) {
+    test ()
+      .isError ('fail', 'err', err)
+      .isExactly ('fail', 'err.message', err && err.message, 'apikey missing')
       .isUndefined ('fail', 'data', data)
       .done ();
   });
