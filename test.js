@@ -104,6 +104,20 @@ dotest.add ('Error: API error', function (test) {
 });
 
 
+dotest.add ('Error: request failed', function (test) {
+  var tmp = app (apikey, 1);
+
+  tmp ('providers', function (err, data) (
+    test ()
+      .isError ('fail', 'err', err)
+      .isExactly ('fail', 'err.message', err && err.message, 'request failed')
+      .isError ('fail', 'err.error', err && err.error)
+      .isUndefined ('fail', 'data', data)
+      .done ();
+  });
+});
+
+
 dotest.add ('Error: apikey missing', function (test) {
   var tmp = app ();
 
