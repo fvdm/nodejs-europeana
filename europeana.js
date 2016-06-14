@@ -28,6 +28,27 @@ var errors = {
 
 
 /**
+ * Make and call back error
+ *
+ * @callback callback
+ * @param message {string} - Error.message
+ * @param err {mixed} - Error.error
+ * @param res {object} - httpreq response details
+ * @param callback {function} - `function (err) {}`
+ * @returns {void}
+ */
+
+function doError (message, err, res, callback) {
+  var error = new Error (message);
+
+  error.code = res.statusCode;
+  error.error = err || errors [res.statusCode] || null;
+  error.data = res.body;
+  callback (error);
+}
+
+
+/**
  * Process response
  *
  * @callback callback
@@ -40,51 +61,40 @@ var errors = {
 function httpResponse (err, res, callback) {
   var data = res && res.body;
   var error = null;
+  var html;
 
   // client failed
   if (err) {
-    error = new Error ('request failed');
-    error.error = err;
-    callback (error);
+    doError ('request failed', err, res, callback);
     return;
   }
 
-  // http error
-  if (res.statusCode !== 200) {
-    error = new Error ('API error');
-    error.code = res.statusCode;
-    error.error = errors [res.statusCode];
-
-    if (data.match (/<h1>HTTP Status /)) {
-      error.error = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
-    }
-
-    callback (error);
-    return;
-  }
-
+  // parse response
   try {
     data = JSON.parse (data);
-
-    if (data.apikey) {
-      delete data.apikey;
-    }
-
-    // API error
-    if (!data.success && data.error) {
-      error = new Error ('API error');
-      error.error = data.error;
-      error.data = data;
-
-      callback (error);
-      return;
-    }
   } catch (reason) {
-    error = new Error ('invalid response');
-    error.error = reason;
-    error.data = data;
+    // weird API error
+    if (data.match (/<h1>HTTP Status /)) {
+      html = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
+      doError ('API error', html, res, callback);
+    } else {
+      doError ('invalid response', reason, res, callback);
+    }
+    return;
+  }
 
-    callback (error);
+  if (data.apikey) {
+    delete data.apikey;
+  }
+
+  // API error
+  if (!data.success && data.error) {
+    doError ('API error', data.error, res, callback);
+    return;
+  }
+
+  if (res.statusCode >= 300) {
+    doError ('API error', null, res, callback);
     return;
   }
 
