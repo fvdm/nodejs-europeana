@@ -15,7 +15,6 @@ var settings = {
   timeout: 5000
 };
 
-
 // errors
 // http://www.europeana.eu/portal/api-working-with-api.html#Error-Codes
 
@@ -28,8 +27,83 @@ var errors = {
 };
 
 
-// communicate with the API
-function talk (path, fields, callback) {
+/**
+ * Process response
+ *
+ * @callback callback
+ * @param err {Error, null} - httpreq error
+ * @param res {object} - httpreq response details
+ * @param callback {function} - `function (err, data) {}`
+ * @returns {void}
+ */
+
+function httpResponse (err, res, callback) {
+  var data = res && res.body;
+  var error = null;
+
+  // client failed
+  if (err) {
+    error = new Error ('request failed');
+    error.error = err;
+    callback (error);
+    return;
+  }
+
+  // http error
+  if (res.statusCode !== 200) {
+    error = new Error ('API error');
+    error.code = res.statusCode;
+    error.error = errors [res.statusCode];
+
+    if (data.match (/<h1>HTTP Status /)) {
+      error.error = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
+    }
+
+    callback (error);
+    return;
+  }
+
+  try {
+    data = JSON.parse (data);
+
+    if (data.apikey) {
+      delete data.apikey;
+    }
+
+    // API error
+    if (!data.success && data.error) {
+      error = new Error ('API error');
+      error.error = data.error;
+      error.data = data;
+
+      callback (error);
+      return;
+    }
+  } catch (reason) {
+    error = new Error ('invalid response');
+    error.error = reason;
+    error.data = data;
+
+    callback (error);
+    return;
+  }
+
+  // all good
+  callback (null, data);
+}
+
+
+/**
+ * Communicate with API
+ *
+ * @callback callback
+ * @param path {string} - Method path between `/v2/` and `.json`
+ * @param fields {object} - Method parameters
+ * @param callback {function} - `function (err, data) {}`
+ * @returns {void}
+ */
+
+function httpRequest (path, fields, callback) {
   var options = {
     method: 'GET',
     url: 'https://www.europeana.eu/api/v2/' + path + '.json',
@@ -55,66 +129,26 @@ function talk (path, fields, callback) {
 
   options.parameters.wskey = settings.apikey;
 
-  http.doRequest (options, function (err, res) {
-    var data = res && res.body || '';
-    var error = null;
+  function doResponse (err, res) {
+    httpResponse (err, res, callback);
+  }
 
-    // client failed
-    if (err) {
-      error = new Error ('request failed');
-      error.error = err;
-      callback (error);
-      return;
-    }
-
-    // http error
-    if (res.statusCode !== 200) {
-      error = new Error ('API error');
-      error.code = res.statusCode;
-      error.error = errors [res.statusCode];
-
-      if (data.match (/<h1>HTTP Status /)) {
-        error.error = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
-      }
-
-      callback (error);
-      return;
-    }
-
-    try {
-      data = JSON.parse (data);
-
-      if (data.apikey) {
-        delete data.apikey;
-      }
-
-      // API error
-      if (!data.success && data.error) {
-        error = new Error ('API error');
-        error.error = data.error;
-        error.data = data;
-
-        callback (error);
-        return;
-      }
-    } catch (reason) {
-      error = new Error ('invalid response');
-      error.error = reason;
-      error.data = data;
-
-      callback (error);
-      return;
-    }
-
-    // all good
-    callback (null, data);
-  });
+  http.doRequest (options, doResponse);
 }
 
 
-// config
-module.exports = function setup (apikey, timeout) {
+/**
+ * Module interface
+ *
+ * @param [apikey] {string} - Your Europeana API key
+ * @param [timeout = 5000] {number} - Request wait timeout in ms
+ * @returns httpRequest {function}
+ */
+
+function setup (apikey, timeout) {
   settings.apikey = apikey || null;
   settings.timeout = timeout || settings.timeout;
-  return talk;
+  return httpRequest;
 };
+
+module.exports = setup;
