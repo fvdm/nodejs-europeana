@@ -149,6 +149,6 @@ function setup (apikey, timeout) {
   settings.apikey = apikey || null;
   settings.timeout = timeout || settings.timeout;
   return httpRequest;
-};
+}
 
 module.exports = setup;
