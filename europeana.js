@@ -40,10 +40,12 @@ var errors = {
 
 function doError (message, err, res, callback) {
   var error = new Error (message);
+  var code = res && res.statusCode;
+  var body = res && res.body;
 
-  error.code = res.statusCode;
-  error.error = err || errors [res.statusCode] || null;
-  error.data = res.body;
+  error.code = code;
+  error.error = err || errors [code] || null;
+  error.data = body;
   callback (error);
 }
 
