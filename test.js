@@ -104,6 +104,19 @@ dotest.add ('Error: apikey missing', function (test) {
 });
 
 
+dotest.add ('Error: API error', function (test) {
+  europeana ('record/-', function (err, data) {
+    test ()
+      .isError ('fail', 'err', err)
+      .isExactly ('fail', 'err.message', err && err.message, 'API error')
+      .isNumber ('fail', 'err.code', err && err.code)
+      .isString ('fail', 'err.error', err && err.error)
+      .isUndefined ('fail', 'data', data)
+      .done ();
+  });
+});
+
+
 /*
 // Suggestions in unavailable
 // http://labs.europeana.eu/api/suggestions
