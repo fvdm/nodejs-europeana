@@ -107,7 +107,7 @@ dotest.add ('Error: API error', function (test) {
 dotest.add ('Error: request failed', function (test) {
   var tmp = app (apikey, 1);
 
-  tmp ('providers', function (err, data) (
+  tmp ('providers', function (err, data) {
     test ()
       .isError ('fail', 'err', err)
       .isExactly ('fail', 'err.message', err && err.message, 'request failed')
