@@ -17,18 +17,6 @@ dotest.add ('Module', function (test) {
 });
 
 
-dotest.add ('API key', function (test) {
-  if (!apikey) {
-    dotest.log ('fail', 'EUROPEANA_APIKEY is not set');
-    dotest.exit ();
-  } else {
-    dotest.log ('good', 'EUROPEANA_APIKEY is set');
-    test ()
-      .done ();
-  }
-});
-
-
 dotest.add ('search', function (test) {
   var props = {
     query: 'who:"laurent de la hyre"'
