@@ -91,6 +91,19 @@ dotest.add ('providers params', function (test) {
 });
 
 
+dotest.add ('Error: apikey missing', function (test) {
+  var tmp = app ();
+
+  tmp ('providers', function (err, data) {
+    test ()
+      .isError ('fail', 'err', err)
+      .isExactly ('fail', 'err.message', err && err.message, 'apikey missing')
+      .isUndefined ('fail', 'data', data)
+      .done ();
+  });
+});
+
+
 /*
 // Suggestions in unavailable
 // http://labs.europeana.eu/api/suggestions
