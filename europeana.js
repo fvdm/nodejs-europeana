@@ -60,7 +60,6 @@ function doError (message, err, res, callback) {
 
 function httpResponse (err, res, callback) {
   var data = res && res.body;
-  var error = null;
   var html;
 
   // client failed
