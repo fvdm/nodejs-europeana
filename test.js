@@ -1,4 +1,4 @@
-var doTest = require ('dotest');
+var dotest = require ('dotest');
 var app = require ('./');
 
 // Setup
@@ -9,33 +9,33 @@ var timeout = process.env.EUROPEANA_TIMEOUT || 5000;
 var europeana = app (apikey, timeout);
 
 
-doTest.add ('Module', function () {
-  doTest.test ()
+dotest.add ('Module', function (test) {
+  test ()
     .isFunction ('fail', 'exports', app)
     .isFunction ('fail', 'module', europeana)
     .done ();
 });
 
 
-doTest.add ('API key', function () {
+dotest.add ('API key', function (test) {
   if (!apikey) {
-    doTest.log ('fail', 'EUROPEANA_APIKEY is not set');
-    doTest.exit ();
+    dotest.log ('fail', 'EUROPEANA_APIKEY is not set');
+    dotest.exit ();
   } else {
-    doTest.log ('good', 'EUROPEANA_APIKEY is set');
-    doTest.test ()
+    dotest.log ('good', 'EUROPEANA_APIKEY is set');
+    test ()
       .done ();
   }
 });
 
 
-doTest.add ('search', function () {
+dotest.add ('search', function (test) {
   var props = {
     query: 'who:"laurent de la hyre"'
   };
 
   europeana ('search', props, function (err, data) {
-    doTest.test (err)
+    test (err)
       .isObject ('fail', 'data', data)
       .isNotEmpty ('warn', 'data', data)
       .done ();
@@ -43,14 +43,14 @@ doTest.add ('search', function () {
 });
 
 
-doTest.add ('record', function () {
+dotest.add ('record', function (test) {
   var record = '9200365/BibliographicResource_1000055039444';
   var props = {
     profile: 'params'
   };
 
   europeana ('record/' + record, props, function (err, data) {
-    doTest.test (err)
+    test (err)
       .isObject ('fail', 'data', data)
       .isNotEmpty ('warn', 'data', data)
       .done ();
@@ -58,14 +58,14 @@ doTest.add ('record', function () {
 });
 
 
-doTest.add ('translateQuery', function () {
+dotest.add ('translateQuery', function (test) {
   var props = {
     languageCodes: 'nl,en,hu',
     term: 'painting'
   };
 
   europeana ('translateQuery', props, function (err, data) {
-    doTest.test (err)
+    test (err)
       .isObject ('fail', 'data', data)
       .isNotEmpty ('warn', 'data', data)
       .isArray ('warn', 'data.translations', data && data.translations)
@@ -74,9 +74,9 @@ doTest.add ('translateQuery', function () {
 });
 
 
-doTest.add ('providers normal', function () {
+dotest.add ('providers normal', function (test) {
   europeana ('providers', function (err, data) {
-    doTest.test (err)
+    test (err)
       .isObject ('fail', 'data', data)
       .isNotEmpty ('warn', 'data', data)
       .isArray ('warn', 'data.items', data && data.items)
@@ -85,13 +85,13 @@ doTest.add ('providers normal', function () {
 });
 
 
-doTest.add ('providers params', function () {
+dotest.add ('providers params', function (test) {
   var params = {
     pagesize: 3
   };
 
   europeana ('providers', params, function (err, data) {
-    doTest.test (err)
+    test (err)
       .isObject ('fail', 'data', data)
       .isNotEmpty ('warn', 'data', data)
       .isArray ('warn', 'data.items', data && data.items)
@@ -104,14 +104,14 @@ doTest.add ('providers params', function () {
 /*
 // Suggestions in unavailable
 // http://labs.europeana.eu/api/suggestions
-doTest.add ('suggestions', function () {
+dotest.add ('suggestions', function (test) {
   var props = {
     query: 'laurent de la hyre',
     rows: 10
   };
 
   app ('suggestions', props, function (err, data) {
-    doTest.test (err)
+    test (err)
       .isObject ('fail', 'data', data)
       .done ();
   });
@@ -120,4 +120,4 @@ doTest.add ('suggestions', function () {
 
 
 // Start the tests
-doTest.run ();
+dotest.run ();
