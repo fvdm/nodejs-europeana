@@ -16,11 +16,11 @@
   },
   "main": "europeana.js",
   "dependencies": {
-    "httpreq": "^0.4.16"
+    "httpreq": "^0.4.22"
   },
   "devDependencies": {
-    "eslint": "^2.5.1",
-    "dotest": "^1.7.0"
+    "eslint": "^2.12.0",
+    "dotest": "^1.12.4"
   },
   "optionalDependencies": {},
   "engines": {
