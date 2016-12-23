@@ -139,6 +139,5 @@ For more information, please refer to <http://unlicense.org/>
 Author
 ------
 
-Franklin van de Meent
-| [Website](https://frankl.in)
-| [Github](https://github.com/fvdm)
+[Franklin van de Meent](https://frankl.in)
+
