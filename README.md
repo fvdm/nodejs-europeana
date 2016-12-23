@@ -5,8 +5,9 @@ Unofficial Node.js module for the Europeana API. Search and lookup art in variou
 
 [![npm](https://img.shields.io/npm/v/europeana.svg?maxAge=3600)](https://github.com/fvdm/nodejs-europeana/blob/master/CHANGELOG.md)
 [![Build Status](https://travis-ci.org/fvdm/nodejs-europeana.svg?branch=master)](https://travis-ci.org/fvdm/nodejs-europeana)
-[![Dependency Status](https://gemnasium.com/badges/github.com/fvdm/nodejs-europeana.svg)](https://gemnasium.com/github.com/fvdm/nodejs-europeana#runtime-dependencies)
 [![Coverage Status](https://coveralls.io/repos/github/fvdm/nodejs-europeana/badge.svg?branch=master)](https://coveralls.io/github/fvdm/nodejs-europeana?branch=master)
+[![bitHound Dependencies](https://www.bithound.io/github/fvdm/nodejs-europeana/badges/dependencies.svg)](https://www.bithound.io/github/fvdm/nodejs-europeana/develop/dependencies/npm)
+[![bitHound Code](https://www.bithound.io/github/fvdm/nodejs-europeana/badges/code.svg)](https://www.bithound.io/github/fvdm/nodejs-europeana)
 
 * [Europeana](http://europeana.eu/)
 * [API documentation](http://labs.europeana.eu/api)
