@@ -25,7 +25,10 @@ dotest.add ('search', function (test) {
   europeana ('search', props, function (err, data) {
     test (err)
       .isObject ('fail', 'data', data)
-      .isNotEmpty ('warn', 'data', data)
+      .isNotEmpty ('fail', 'data', data)
+      .isExactly ('fail', 'data.success', data && data.success, true)
+      .isArray ('fail', 'data.items', data && data.items)
+      .isNotEmpty ('warn', 'data.items', data && data.items)
       .done ();
   });
 });
@@ -40,7 +43,10 @@ dotest.add ('record', function (test) {
   europeana ('record/' + record, props, function (err, data) {
     test (err)
       .isObject ('fail', 'data', data)
-      .isNotEmpty ('warn', 'data', data)
+      .isNotEmpty ('fail', 'data', data)
+      .isExactly ('fail', 'data.success', data && data.success, true)
+      .isObject ('fail', 'data.object', data && data.object)
+      .isNotEmpty ('warn', 'data.object', data && data.object)
       .done ();
   });
 });
@@ -55,7 +61,8 @@ dotest.add ('translateQuery', function (test) {
   europeana ('translateQuery', props, function (err, data) {
     test (err)
       .isObject ('fail', 'data', data)
-      .isNotEmpty ('warn', 'data', data)
+      .isNotEmpty ('fail', 'data', data)
+      .isExactly ('fail', 'data.success', data && data.success, true)
       .isArray ('warn', 'data.translations', data && data.translations)
       .done ();
   });
@@ -66,7 +73,8 @@ dotest.add ('providers normal', function (test) {
   europeana ('providers', function (err, data) {
     test (err)
       .isObject ('fail', 'data', data)
-      .isNotEmpty ('warn', 'data', data)
+      .isNotEmpty ('fail', 'data', data)
+      .isExactly ('fail', 'data.success', data && data.success, true)
       .isArray ('warn', 'data.items', data && data.items)
       .done ();
   });
@@ -83,8 +91,9 @@ dotest.add ('providers params', function (test) {
 
     test (err)
       .isObject ('fail', 'data', data)
-      .isNotEmpty ('warn', 'data', data)
-      .isArray ('warn', 'data.items', items)
+      .isNotEmpty ('fail', 'data', data)
+      .isExactly ('fail', 'data.success', data && data.success, true)
+      .isArray ('fail', 'data.items', items)
       .isExactly ('warn', 'data.items.length', items && items.length, 3)
       .done ();
   });
