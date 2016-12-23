@@ -1,3 +1,27 @@
+#### 1.1.2 (2016-12-23)
+
+##### Chores
+
+* **develop:** Added bitHound config ([b29112a1](https://github.com/fvdm/nodejs-europeana/commit/b29112a1e589d43e9cc6079749b94f8bf4b5e7eb))
+* **package:**
+  * Replaced test runner and dev deps by dotest ([4e201aca](https://github.com/fvdm/nodejs-europeana/commit/4e201aca141fe7121d5a53f23f55fec5a3e4503f))
+  * update eslint to version 3.0.0 ([101f2d32](https://github.com/fvdm/nodejs-europeana/commit/101f2d321efca320c91d4904d9ff4a68c9d0c734))
+
+##### Documentation Changes
+
+* **badges:** Replaced Gemnasium with bitHound ([339590fb](https://github.com/fvdm/nodejs-europeana/commit/339590fb5a3553cb94e024686cf6472ba9484e99))
+
+##### Refactors
+
+* **package:** Minimum supported node v4.0 ([0a7c562a](https://github.com/fvdm/nodejs-europeana/commit/0a7c562a5f1f380c577c49508fdd29385bfe9a89))
+
+##### Tests
+
+* **mains:** More specific checks on content ([07072291](https://github.com/fvdm/nodejs-europeana/commit/07072291b264426f9b3f37553a11fa64ea2178d8))
+* **config:** Use dynamic node versions on Travis CI ([b1ec55ac](https://github.com/fvdm/nodejs-europeana/commit/b1ec55acd2773a68019cc2df6718de43cf771a35))
+* **runner:** Log commits and cleanup ([caa23597](https://github.com/fvdm/nodejs-europeana/commit/caa235979274d583a043e02dd487ed7c3cb41837))
+* **lint:** Update eslint to ES6 ([c8f81798](https://github.com/fvdm/nodejs-europeana/commit/c8f817987e0638eb56b6f10697ed6a8b0ce65ea8))
+
 #### 1.1.1 (2016-6-15)
 
 ##### Chores
