@@ -1,6 +1,8 @@
 europeana
 =========
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/fvdm/nodejs-europeana.svg)](https://greenkeeper.io/)
+
 Unofficial Node.js module for the Europeana API. Search and lookup art in various archives across Europe.
 
 [![npm](https://img.shields.io/npm/v/europeana.svg?maxAge=3600)](https://github.com/fvdm/nodejs-europeana/blob/master/CHANGELOG.md)
