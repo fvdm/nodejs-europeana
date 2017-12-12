@@ -1,93 +1,93 @@
-var dotest = require ('dotest');
-var app = require ('./');
+const dotest = require ('dotest');
+const app = require ('./');
 
 // Setup
 // $ EUROPEANA_KEY=abc123 npm test
-var apikey = process.env.EUROPEANA_APIKEY || null;
-var timeout = process.env.EUROPEANA_TIMEOUT || 5000;
+const apikey = process.env.EUROPEANA_APIKEY || null;
+const timeout = process.env.EUROPEANA_TIMEOUT || 5000;
 
-var europeana = app (apikey, timeout);
+const europeana = app (apikey, timeout);
 
 
-dotest.add ('Module', function (test) {
-  test ()
+dotest.add ('Module', test => {
+  test()
     .isFunction ('fail', 'exports', app)
     .isFunction ('fail', 'module', europeana)
-    .done ();
+    .done();
 });
 
 
-dotest.add ('search', function (test) {
-  var props = {
+dotest.add ('search', test => {
+  const props = {
     query: 'who:"laurent de la hyre"'
   };
 
-  europeana ('search', props, function (err, data) {
+  europeana ('search', props, (err, data) => {
     test (err)
       .isObject ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
       .isExactly ('fail', 'data.success', data && data.success, true)
       .isArray ('fail', 'data.items', data && data.items)
       .isNotEmpty ('warn', 'data.items', data && data.items)
-      .done ();
+      .done();
   });
 });
 
 
-dotest.add ('record', function (test) {
-  var record = '9200365/BibliographicResource_1000055039444';
-  var props = {
+dotest.add ('record', test => {
+  const record = '9200365/BibliographicResource_1000055039444';
+  const props = {
     profile: 'params'
   };
 
-  europeana ('record/' + record, props, function (err, data) {
+  europeana ('record/' + record, props, (err, data) => {
     test (err)
       .isObject ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
       .isExactly ('fail', 'data.success', data && data.success, true)
       .isObject ('fail', 'data.object', data && data.object)
       .isNotEmpty ('warn', 'data.object', data && data.object)
-      .done ();
+      .done();
   });
 });
 
 
-dotest.add ('translateQuery', function (test) {
-  var props = {
+dotest.add ('translateQuery', test => {
+  const props = {
     languageCodes: 'nl,en,hu',
     term: 'painting'
   };
 
-  europeana ('translateQuery', props, function (err, data) {
+  europeana ('translateQuery', props, (err, data) => {
     test (err)
       .isObject ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
       .isExactly ('fail', 'data.success', data && data.success, true)
       .isArray ('warn', 'data.translations', data && data.translations)
-      .done ();
+      .done();
   });
 });
 
 
-dotest.add ('providers normal', function (test) {
-  europeana ('providers', function (err, data) {
+dotest.add ('providers normal', test => {
+  europeana ('providers', (err, data) => {
     test (err)
       .isObject ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
       .isExactly ('fail', 'data.success', data && data.success, true)
       .isArray ('warn', 'data.items', data && data.items)
-      .done ();
+      .done();
   });
 });
 
 
-dotest.add ('providers params', function (test) {
-  var params = {
+dotest.add ('providers params', test => {
+  const params = {
     pagesize: 3
   };
 
-  europeana ('providers', params, function (err, data) {
-    var items = data && data.items;
+  europeana ('providers', params, (err, data) => {
+    const items = data && data.items;
 
     test (err)
       .isObject ('fail', 'data', data)
@@ -95,68 +95,67 @@ dotest.add ('providers params', function (test) {
       .isExactly ('fail', 'data.success', data && data.success, true)
       .isArray ('fail', 'data.items', items)
       .isExactly ('warn', 'data.items.length', items && items.length, 3)
-      .done ();
+      .done();
   });
 });
 
 
-dotest.add ('Error: API error', function (test) {
-  europeana ('record/-', function (err, data) {
-    test ()
+dotest.add ('Error: API error', test => {
+  europeana ('record/-', (err, data) => {
+    test()
       .isError ('fail', 'err', err)
       .isExactly ('fail', 'err.message', err && err.message, 'API error')
       .isNumber ('fail', 'err.code', err && err.code)
       .isString ('fail', 'err.error', err && err.error)
       .isUndefined ('fail', 'data', data)
-      .done ();
+      .done();
   });
 });
 
 
-dotest.add ('Error: request failed', function (test) {
-  var tmp = app (apikey, 1);
+dotest.add ('Error: request failed', test => {
+  const tmp = app (apikey, 1);
 
-  tmp ('providers', function (err, data) {
-    test ()
+  tmp ('providers', (err, data) => {
+    test()
       .isError ('fail', 'err', err)
       .isExactly ('fail', 'err.message', err && err.message, 'request failed')
       .isError ('fail', 'err.error', err && err.error)
       .isUndefined ('fail', 'data', data)
-      .done ();
+      .done();
   });
 });
 
 
-dotest.add ('Error: apikey missing', function (test) {
-  var tmp = app ();
+dotest.add ('Error: apikey missing', test => {
+  const tmp = app();
 
-  tmp ('providers', function (err, data) {
-    test ()
+  tmp ('providers', (err, data) => {
+    test()
       .isError ('fail', 'err', err)
       .isExactly ('fail', 'err.message', err && err.message, 'apikey missing')
       .isUndefined ('fail', 'data', data)
-      .done ();
+      .done();
   });
 });
 
 
 /*
-// Suggestions in unavailable
+// Suggestions is unavailable
 // http://labs.europeana.eu/api/suggestions
-dotest.add ('suggestions', function (test) {
-  var props = {
+dotest.add ('suggestions', test => {
+  const props = {
     query: 'laurent de la hyre',
     rows: 10
   };
 
-  app ('suggestions', props, function (err, data) {
+  app ('suggestions', props, (err, data) => {
     test (err)
       .isObject ('fail', 'data', data)
-      .done ();
+      .done();
   });
 });
 */
 
-
 // Start the tests
-dotest.run ();
+dotest.run();
