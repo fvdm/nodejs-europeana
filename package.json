@@ -16,7 +16,7 @@
   },
   "main": "europeana.js",
   "dependencies": {
-    "httpreq": "^0.4.22"
+    "httpreq": "^0.4.24"
   },
   "devDependencies": {
     "dotest": "^2.1.0"
