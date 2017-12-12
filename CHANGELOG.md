@@ -1,3 +1,29 @@
+#### 1.1.3 (2017-12-12)
+
+##### Chores
+
+* **package:**
+  * Update httpreq dependency ([e305ea35](https://github.com/fvdm/nodejs-europeana/commit/e305ea356536de93bf05cfbd3311382ef14bbd4b))
+  * Reduce dev deps to dotest ([7df07839](https://github.com/fvdm/nodejs-europeana/commit/7df078394d9bb0ea3dd2583030e38c48b83ea586))
+  * update dependencies ([c55d2ad2](https://github.com/fvdm/nodejs-europeana/commit/c55d2ad204d07e709f129cf4f07f1d3bef0e3624))
+  * Update dotest dev dep ([4d933a00](https://github.com/fvdm/nodejs-europeana/commit/4d933a005c362fa48b8128fdcff0a1b779f5faa2))
+  * Update dev deps ([b8c9597b](https://github.com/fvdm/nodejs-europeana/commit/b8c9597be6dc1c12ef2a3c73a93cb12f7a45b639))
+
+##### Documentation Changes
+
+* **badges:** Moved GreenKeeper badge ([2c3b16cc](https://github.com/fvdm/nodejs-europeana/commit/2c3b16ccfc3e4a3d417d29cfc409a664a74eb5f3))
+* **readme:**
+  * add Greenkeeper badge ([56114f03](https://github.com/fvdm/nodejs-europeana/commit/56114f037a3fc59c015b9b45b79b76708ce549ec))
+  * Add coffee button to Author ([c9d1ebe9](https://github.com/fvdm/nodejs-europeana/commit/c9d1ebe982fc504ce1f75cfcb8af2a75ff99c272))
+  * Cleaner author line ([116d6120](https://github.com/fvdm/nodejs-europeana/commit/116d61207645b3c9cd1d0fb63f495ae1135a38c8))
+
+##### Tests
+
+* **config:**
+  * Remove ecmaVersion from .eslintrc ([f8e8de80](https://github.com/fvdm/nodejs-europeana/commit/f8e8de8049d31882357baa37e5710fb513cd4a3b))
+  * Update Travis CI node versions ([ac203f59](https://github.com/fvdm/nodejs-europeana/commit/ac203f59c9fd2bd9b3c8662d056be11309ec38f1))
+* **main:** Convert syntax to ES6 ([6a0b3fda](https://github.com/fvdm/nodejs-europeana/commit/6a0b3fdae4034dde0c425f5f0012c3083ae297dc))
+
 #### 1.1.2 (2016-12-23)
 
 ##### Chores
