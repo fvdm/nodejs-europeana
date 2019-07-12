@@ -6,8 +6,6 @@ Unofficial Node.js module for the Europeana API. Search and lookup art in variou
 [![npm](https://img.shields.io/npm/v/europeana.svg?maxAge=3600)](https://github.com/fvdm/nodejs-europeana/blob/master/CHANGELOG.md)
 [![Build Status](https://travis-ci.org/fvdm/nodejs-europeana.svg?branch=master)](https://travis-ci.org/fvdm/nodejs-europeana)
 [![Coverage Status](https://coveralls.io/repos/github/fvdm/nodejs-europeana/badge.svg?branch=master)](https://coveralls.io/github/fvdm/nodejs-europeana?branch=master)
-[![bitHound Dependencies](https://www.bithound.io/github/fvdm/nodejs-europeana/badges/dependencies.svg)](https://www.bithound.io/github/fvdm/nodejs-europeana/develop/dependencies/npm)
-[![bitHound Code](https://www.bithound.io/github/fvdm/nodejs-europeana/badges/code.svg)](https://www.bithound.io/github/fvdm/nodejs-europeana)
 [![Greenkeeper badge](https://badges.greenkeeper.io/fvdm/nodejs-europeana.svg)](https://greenkeeper.io/)
 
 * [Europeana](http://europeana.eu/)
@@ -18,28 +16,28 @@ Example
 -------
 
 ```js
-var europeana = require ('europeana') ('abc123');
+const europeana = require ('europeana') ('abc123');
 
 // Search
-var params = {
+const params = {
   query: 'et in arcadia ego',
-  rows: 5
+  rows: 5,
 };
 
 europeana ('search', params, console.log);
 
 
 // Record
-var recordId = '/08501/03F4577D418DC84979C4E2EE36F99FECED4C7B11';
+const recordId = '/08501/03F4577D418DC84979C4E2EE36F99FECED4C7B11';
 
-europeana ('record' + recordId, console.log);
+europeana (`record${recordId}`, console.log);
 ```
 
 
 Installation
 ------------
 
-`npm install europeana`
+`npm i europeana`
 
 
 Configuration
@@ -56,8 +54,8 @@ timeout | number | no       | 5000    | Request time out in ms
 #### Example
 
 ```js
-var apikey = 'abc123';
-var timeout = 3000;
+const apikey = 'abc123';
+const timeout = 3000;
 
 var europeana = require ('europeana') (apikey, timeout);
 ```
@@ -80,17 +78,12 @@ data     | Object |         | Result object
 
 ```js
 function myCallback (err, data) {
-  var set = {
+  if (err) return console.error (err);
+
+  console.dir (data, {
     depth: null,
-    colors: true
-  };
-
-  if (err) {
-    console.dir (err, set);
-    return;
-  }
-
-  console.dir (data, set);
+    colors: true,
+  });
 }
 
 // Search
@@ -141,5 +134,3 @@ Author
 ------
 
 [Franklin van de Meent](https://frankl.in)
-
-[![Buy me a coffee](https://frankl.in/u/kofi/kofi-readme.png)](https://ko-fi.com/franklin)
