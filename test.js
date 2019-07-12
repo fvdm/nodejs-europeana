@@ -135,7 +135,7 @@ dotest.add ('Error: API error', async test => {
     const data = await europeana ('record/-');
 
     test()
-      .isUndefined ('fail', 'data', data);
+      .isUndefined ('fail', 'data', data)
       .done()
     ;
   }
