@@ -63,7 +63,7 @@ function doError (message, err, res) {
 
 async function doResponse (err, res) {
   let data = res && res.body;
-  let html;
+  let error;
 
   // client failed
   if (err) {
@@ -77,10 +77,25 @@ async function doResponse (err, res) {
   catch (reason) {
     // weird API error
     if (data.match (/<h1>HTTP Status /)) {
-      html = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
-      throw doError ('API error', html, res);
+      error = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
+      throw doError ('API error', error, res);
     }
 
+    // another weird API error
+    if (data.match (/<p><b>Type<\/b> Status Report<\/p>/)) {
+      let errMsg;
+
+      data.replace (/.*<h1>([^<]+)<\/h1><hr class="line" \/><p><b>Type<\/b> Status Report<\/p><p><b>Message<\/b> ([^<]+)<\/p><p><b>Description<\/b> ([^<]+)<\/p>/, (str, title, message, description) => {
+        title = title.trim();
+        message = message.trim().replace ('&#47;', '/');
+        error = description.trim();
+        errMsg = `${title}: ${message}`;
+      });
+
+      throw doError (errMsg, error);
+    }
+
+    // invalid API response
     throw doError ('invalid response', reason, res);
   }
 
