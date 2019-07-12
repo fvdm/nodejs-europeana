@@ -73,7 +73,8 @@ async function doResponse (err, res) {
   // parse response
   try {
     data = JSON.parse (data);
-  } catch (reason) {
+  }
+  catch (reason) {
     // weird API error
     if (data.match (/<h1>HTTP Status /)) {
       html = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
