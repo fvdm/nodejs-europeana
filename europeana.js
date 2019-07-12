@@ -30,12 +30,11 @@ const errors = {
 /**
  * Make and call back error
  *
- * @callback callback
- * @param message {string} - Error.message
- * @param err {mixed} - Error.error
- * @param res {object} - httpreq response details
- * @param callback {function} - `function (err) {}`
- * @returns {void}
+ * @param   {string}  message  Error.message
+ * @param   {mixed}   err      Error.error
+ * @param   {object}  res      httpreq response details
+ *
+ * @returns {promise}
  */
 
 function doError (message, err, res) {
@@ -59,11 +58,10 @@ function doError (message, err, res) {
 /**
  * Process response
  *
- * @callback callback
- * @param err {Error, null} - httpreq error
- * @param res {object} - httpreq response details
- * @param callback {function} - `function (err, data) {}`
- * @returns {void}
+ * @param   {Error|null}  err  httpreq error
+ * @param   {object}      res  httpreq response details
+ *
+ * @returns {promise}
  */
 
 async function doResponse (err, res) {
@@ -125,11 +123,10 @@ async function doResponse (err, res) {
 /**
  * Communicate with API
  *
- * @callback callback
- * @param path {string} - Method path between `/v2/` and `.json`
- * @param fields {object} - Method parameters
- * @param callback {function} - `function (err, data) {}`
- * @returns {void}
+ * @param   {string}  path    Method path between `/v2/` and `.json`
+ * @param   {object}  fields  Method parameters
+ *
+ * @returns {promise}
  */
 
 async function get ({
@@ -169,9 +166,10 @@ async function get ({
 /**
  * Module interface
  *
- * @param [apikey] {string} - Your Europeana API key
- * @param [timeout = 5000] {number} - Request wait timeout in ms
- * @returns httpRequest {function}
+ * @param   {string}    [apikey]        Your Europeana API key
+ * @param   {number}    [timeout=5000]  Request wait timeout in ms
+ *
+ * @returns {function}
  */
 
 async function setup ({
