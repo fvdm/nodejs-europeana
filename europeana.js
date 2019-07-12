@@ -39,9 +39,14 @@ const errors = {
  */
 
 function doError (message, err, res) {
-  const error = new Error (message);
-  const code = res && res.statusCode;
-  const body = res && res.body;
+  let error = new Error (message);
+  let code;
+  let body;
+
+  if (res) {
+    code = res.statusCode;
+    body = res.body;
+  }
 
   error.code = code;
   error.error = err || errors[code] || null;
