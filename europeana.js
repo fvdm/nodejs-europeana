@@ -61,15 +61,13 @@ function doError (message, err, res) {
  * @returns {void}
  */
 
-async function httpResponse (err, res) {
+async function doResponse (err, res) {
   let data = res && res.body;
-  let error;
   let html;
 
   // client failed
   if (err) {
-    doError ('request failed', err, res);
-    return;
+    throw doError ('request failed', err, res);
   }
 
   // parse response
@@ -79,11 +77,10 @@ async function httpResponse (err, res) {
     // weird API error
     if (data.match (/<h1>HTTP Status /)) {
       html = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
-      doError ('API error', html, res, callback);
-    } else {
-      doError ('invalid response', reason, res, callback);
+      throw doError ('API error', html, res);
     }
-    return;
+
+    throw doError ('invalid response', reason, res);
   }
 
   if (data.apikey) {
@@ -92,17 +89,15 @@ async function httpResponse (err, res) {
 
   // API error
   if (!data.success && data.error) {
-    doError ('API error', data.error, res, callback);
-    return;
+    throw doError ('API error', data.error, res);
   }
 
   if (res.statusCode >= 300) {
-    doError ('API error', null, res, callback);
-    return;
+    throw doError ('API error', null, res);
   }
 
   // all good
-  callback (null, data);
+  return data;
 }
 
 
@@ -139,7 +134,11 @@ async function get ({
 
   return new Promise ((resolve, reject) => {
     doRequest (options, (err, data) => {
-      if (err) return reject (err);
+      if (err) {
+        reject (err);
+        return;
+      }
+
       resolve (doResponse (data));
     });
   });
@@ -157,7 +156,7 @@ async function get ({
 function setup (apikey, timeout) {
   settings.apikey = apikey || null;
   settings.timeout = timeout || settings.timeout;
-  return httpRequest;
+  return get;
 }
 
 module.exports = setup;
