@@ -115,7 +115,7 @@ async function get ({
   path,
   parameters = null,
   apikey = settings.apikey,
-  timeout = settings.timeout
+  timeout = settings.timeout,
 }) {
   const options = {
     url: `https://www.europeana.eu/api/v2/${path}.json`,
@@ -129,7 +129,7 @@ async function get ({
   };
 
   if (!apikey) {
-    throw 'apikey missing';
+    throw new Error ('apikey missing');
   }
 
   return new Promise ((resolve, reject) => {
