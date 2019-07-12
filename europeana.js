@@ -67,7 +67,7 @@ async function doResponse (err, res) {
 
   // client failed
   if (err) {
-    throw doError ('request failed', err, res);
+    throw err;
   }
 
   // parse response
