@@ -174,9 +174,12 @@ async function get ({
  * @returns httpRequest {function}
  */
 
-async function setup (apikey, timeout) {
-  settings.apikey = apikey || null;
-  settings.timeout = timeout || settings.timeout;
+async function setup ({
+  apikey = null,
+  timeout = settings.timeout,
+) {
+  settings.apikey = apikey;
+  settings.timeout = timeout;
   return get;
 }
 

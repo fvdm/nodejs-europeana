@@ -6,7 +6,7 @@ const app = require ('./');
 const apikey = process.env.EUROPEANA_APIKEY || null;
 const timeout = process.env.EUROPEANA_TIMEOUT || 5000;
 
-const europeana = app (apikey, timeout);
+const europeana = app ({ apikey, timeout });
 
 
 dotest.add ('Module', test => {
@@ -153,7 +153,7 @@ dotest.add ('Error: API error', async test => {
 
 dotest.add ('Error: request failed', async test => {
   try {
-    const tmp = app (apikey, 1);
+    const tmp = app ({ apikey, timeout: 1 });
     const data = await tmp ('providers');
 
     test()
