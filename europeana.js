@@ -134,7 +134,7 @@ async function get ({
   };
 
   if (!apikey) {
-    throw 'apikey missing');
+    throw 'apikey missing';
   }
 
   return new Promise ((resolve, reject) => {
