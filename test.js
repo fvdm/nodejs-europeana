@@ -13,130 +13,182 @@ dotest.add ('Module', test => {
   test()
     .isFunction ('fail', 'exports', app)
     .isFunction ('fail', 'module', europeana)
-    .done();
+    .done()
+  ;
 });
 
 
-dotest.add ('search', test => {
-  const props = {
-    query: 'who:"laurent de la hyre"'
-  };
+dotest.add ('search', async test => {
+  try {
+    const props = {
+      query: 'who:"laurent de la hyre"',
+    };
 
-  europeana ('search', props, (err, data) => {
-    test (err)
+    const data = await europeana ('search', props);
+
+    test()
       .isObject ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
       .isExactly ('fail', 'data.success', data && data.success, true)
       .isArray ('fail', 'data.items', data && data.items)
       .isNotEmpty ('warn', 'data.items', data && data.items)
-      .done();
-  });
+      .done()
+    ;
+  }
+  catch (err) {
+    test (err).done();
+  }
 });
 
 
-dotest.add ('record', test => {
-  const record = '9200365/BibliographicResource_1000055039444';
-  const props = {
-    profile: 'params'
-  };
+dotest.add ('record', async test => {
+  try {
+    const record = '9200365/BibliographicResource_1000055039444';
+    const props = {
+      profile: 'params',
+    };
 
-  europeana ('record/' + record, props, (err, data) => {
-    test (err)
+    const data = await europeana (`record/${record}`, props);
+
+    test()
       .isObject ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
       .isExactly ('fail', 'data.success', data && data.success, true)
       .isObject ('fail', 'data.object', data && data.object)
       .isNotEmpty ('warn', 'data.object', data && data.object)
-      .done();
-  });
+      .done()
+    ;
+  }
+  catch (err) {
+    test (err).done();
+  }
 });
 
 
-dotest.add ('translateQuery', test => {
-  const props = {
-    languageCodes: 'nl,en,hu',
-    term: 'painting'
-  };
+dotest.add ('translateQuery', async test => {
+  try {
+    const props = {
+      languageCodes: 'nl,en,hu',
+      term: 'painting',
+    };
 
-  europeana ('translateQuery', props, (err, data) => {
-    test (err)
+    const data = await europeana ('translateQuery', props);
+
+    test()
       .isObject ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
       .isExactly ('fail', 'data.success', data && data.success, true)
       .isArray ('warn', 'data.translations', data && data.translations)
-      .done();
-  });
+      .done()
+    ;
+  }
+  catch (err) {
+    test (err).done();
+  }
 });
 
 
-dotest.add ('providers normal', test => {
-  europeana ('providers', (err, data) => {
-    test (err)
+dotest.add ('providers normal', async test => {
+  try {
+    const data = await europeana ('providers');
+
+    test()
       .isObject ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
       .isExactly ('fail', 'data.success', data && data.success, true)
       .isArray ('warn', 'data.items', data && data.items)
-      .done();
-  });
+      .done()
+    ;
+  }
+  catch (err) {
+    test (err).done();
+  }
 });
 
 
-dotest.add ('providers params', test => {
-  const params = {
-    pagesize: 3
-  };
-
-  europeana ('providers', params, (err, data) => {
-    const items = data && data.items;
-
-    test (err)
+dotest.add ('providers params', async test => {
+  try {
+    const params = {
+      pagesize: 3,
+    };
+  
+    const data = await europeana ('providers', params);
+    const items = data.items;
+  
+    test()
       .isObject ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
       .isExactly ('fail', 'data.success', data && data.success, true)
       .isArray ('fail', 'data.items', items)
       .isExactly ('warn', 'data.items.length', items && items.length, 3)
-      .done();
-  });
+      .done()
+    ;
+  }
+  catch (err) {
+    test (err).done();
+  }
 });
 
 
-dotest.add ('Error: API error', test => {
-  europeana ('record/-', (err, data) => {
+dotest.add ('Error: API error', async test => {
+  try {
+    const data = await europeana ('record/-');
+
+    test()
+      .isUndefined ('fail', 'data', data);
+      .done()
+    ;
+  }
+  catch (err) {
     test()
       .isError ('fail', 'err', err)
       .isExactly ('fail', 'err.message', err && err.message, 'API error')
       .isNumber ('fail', 'err.code', err && err.code)
       .isString ('fail', 'err.error', err && err.error)
-      .isUndefined ('fail', 'data', data)
-      .done();
-  });
+      .done()
+    ;
+  }
 });
 
 
-dotest.add ('Error: request failed', test => {
-  const tmp = app (apikey, 1);
+dotest.add ('Error: request failed', async test => {
+  try {
+    const tmp = app (apikey, 1);
+    const data = await tmp ('providers');
 
-  tmp ('providers', (err, data) => {
+    test()
+      .isUndefined ('fail', 'data', data)
+      .done()
+    ;
+  }
+  catch (err) {
     test()
       .isError ('fail', 'err', err)
       .isExactly ('fail', 'err.message', err && err.message, 'request failed')
       .isError ('fail', 'err.error', err && err.error)
-      .isUndefined ('fail', 'data', data)
-      .done();
-  });
+      .done()
+    ;
+  }
 });
 
 
-dotest.add ('Error: apikey missing', test => {
-  const tmp = app();
+dotest.add ('Error: apikey missing', async test => {
+  try {
+    const tmp = app();
+    const data = await tmp ('providers');
 
-  tmp ('providers', (err, data) => {
+    test()
+      .isUndefined ('fail', 'data', data)
+      .done()
+    ;
+  }
+  catch (err) {
     test()
       .isError ('fail', 'err', err)
       .isExactly ('fail', 'err.message', err && err.message, 'apikey missing')
-      .isUndefined ('fail', 'data', data)
-      .done();
-  });
+      .done()
+    ;
+  }
 });
 
 
