@@ -111,10 +111,10 @@ dotest.add ('providers params', async test => {
     const params = {
       pagesize: 3,
     };
-  
+
     const data = await europeana ('providers', params);
     const items = data.items;
-  
+
     test()
       .isObject ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
