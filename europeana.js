@@ -67,7 +67,7 @@ function doError (message, err, res) {
  */
 
 async function doResponse (err, res) {
-  let data = res && res.body;
+  let data;
   let error;
 
   // client failed
@@ -77,20 +77,20 @@ async function doResponse (err, res) {
 
   // parse response
   try {
-    data = JSON.parse (data);
+    data = JSON.parse (res.body);
   }
   catch (reason) {
     // weird API error
-    if (data.match (/<h1>HTTP Status /)) {
-      error = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
+    if (res.body.match (/<h1>HTTP Status /)) {
+      error = res.body.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
       throw doError ('API error', error, res);
     }
 
     // another weird API error
-    if (data.match (/<p><b>Type<\/b> Status Report<\/p>/)) {
+    if (res.body.match (/<p><b>Type<\/b> Status Report<\/p>/)) {
       let errMsg;
 
-      data.replace (/.*<h1>([^<]+)<\/h1><hr class="line" \/><p><b>Type<\/b> Status Report<\/p><p><b>Message<\/b> ([^<]+)<\/p><p><b>Description<\/b> ([^<]+)<\/p>/, (str, title, message, description) => {
+      res.body.replace (/.*<h1>([^<]+)<\/h1><hr class="line" \/><p><b>Type<\/b> Status Report<\/p><p><b>Message<\/b> ([^<]+)<\/p><p><b>Description<\/b> ([^<]+)<\/p>/, (str, title, message, description) => {
         title = title.trim();
         message = message.trim().replace ('&#47;', '/');
         error = description.trim();
