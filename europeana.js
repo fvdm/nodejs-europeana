@@ -8,22 +8,22 @@ License:      Public Domain / Unlicense (see UNLICENSE file)
               (https://github.com/fvdm/nodejs-europeana/raw/master/UNLICENSE)
 */
 
-var http = require ('httpreq');
+const { doRequest } = require ('httpreq');
 
-var settings = {
+const settings = {
   apikey: null,
-  timeout: 5000
+  timeout: 5000,
 };
 
 // errors
 // http://www.europeana.eu/portal/api-working-with-api.html#Error-Codes
 
-var errors = {
+const errors = {
   400: 'The request sent by the client was syntactically incorrect',
   401: 'Authentication credentials were missing or authentication failed.',
   404: 'The requested record was not found.',
   429: 'The request could be served because the application has reached its usage limit.',
-  500: 'Internal Server Error. Something has gone wrong, please report to us.'
+  500: 'Internal Server Error. Something has gone wrong, please report to us.',
 };
 
 
@@ -38,15 +38,16 @@ var errors = {
  * @returns {void}
  */
 
-function doError (message, err, res, callback) {
-  var error = new Error (message);
-  var code = res && res.statusCode;
-  var body = res && res.body;
+function doError (message, err, res) {
+  const error = new Error (message);
+  const code = res && res.statusCode;
+  const body = res && res.body;
 
   error.code = code;
-  error.error = err || errors [code] || null;
+  error.error = err || errors[code] || null;
   error.data = body;
-  callback (error);
+
+  return error;
 }
 
 
@@ -60,13 +61,14 @@ function doError (message, err, res, callback) {
  * @returns {void}
  */
 
-function httpResponse (err, res, callback) {
-  var data = res && res.body;
-  var html;
+async function httpResponse (err, res) {
+  let data = res && res.body;
+  let error;
+  let html;
 
   // client failed
   if (err) {
-    doError ('request failed', err, res, callback);
+    doError ('request failed', err, res);
     return;
   }
 
@@ -114,37 +116,33 @@ function httpResponse (err, res, callback) {
  * @returns {void}
  */
 
-function httpRequest (path, fields, callback) {
-  var options = {
+async function get ({
+  path,
+  parameters = null,
+  apikey = settings.apikey,
+  timeout = settings.timeout
+}) {
+  const options = {
+    url: `https://www.europeana.eu/api/v2/${path}.json`,
     method: 'GET',
-    url: 'https://www.europeana.eu/api/v2/' + path + '.json',
-    parameters: fields,
-    timeout: settings.timeout,
+    parameters,
+    timeout,
     headers: {
-      'User-Agent': 'europeana.js'
-    }
+      'User-Agent': 'europeana.js',
+      'wsKey': apikey,
+    },
   };
 
-  if (typeof fields === 'function') {
-    callback = fields;
-    options.parameters = {};
+  if (!apikey) {
+    throw 'apikey missing');
   }
 
-  // Request
-
-  // check API key
-  if (!settings.apikey) {
-    callback (new Error ('apikey missing'));
-    return;
-  }
-
-  options.parameters.wskey = settings.apikey;
-
-  function doResponse (err, res) {
-    httpResponse (err, res, callback);
-  }
-
-  http.doRequest (options, doResponse);
+  return new Promise ((resolve, reject) => {
+    doRequest (options, (err, data) => {
+      if (err) return reject (err);
+      resolve (doResponse (data));
+    });
+  });
 }
 
 
