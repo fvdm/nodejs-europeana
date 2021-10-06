@@ -4,9 +4,8 @@ europeana
 Unofficial Node.js module for the Europeana API. Search and lookup art in various archives across Europe.
 
 [![npm](https://img.shields.io/npm/v/europeana.svg?maxAge=3600)](https://github.com/fvdm/nodejs-europeana/blob/master/CHANGELOG.md)
-[![Build Status](https://travis-ci.org/fvdm/nodejs-europeana.svg?branch=master)](https://travis-ci.org/fvdm/nodejs-europeana)
+[![Build Status](https://github.com/fvdm/nodejs-europeana/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/fvdm/nodejs-europeana/actions/workflows/node.js.yml)
 [![Coverage Status](https://coveralls.io/repos/github/fvdm/nodejs-europeana/badge.svg?branch=master)](https://coveralls.io/github/fvdm/nodejs-europeana?branch=master)
-[![Greenkeeper badge](https://badges.greenkeeper.io/fvdm/nodejs-europeana.svg)](https://greenkeeper.io/)
 
 * [Europeana](http://europeana.eu/)
 * [API documentation](http://labs.europeana.eu/api)
