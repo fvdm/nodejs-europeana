@@ -1,161 +1,177 @@
 const dotest = require ('dotest');
-const app = require ('./');
+const pkg = require ('./');
 
 // Setup
-// $ EUROPEANA_KEY=abc123 npm test
-const apikey = process.env.EUROPEANA_APIKEY || null;
-const timeout = process.env.EUROPEANA_TIMEOUT || 5000;
+// $ WSKEY=abc123 npm test
+const wskey = process.env.EUROPEANA_WSKEY || null;
+const timeout = process.env.EUROPEANA_TIMEOUT || 15000;
 
-const europeana = app (apikey, timeout);
-
-
-dotest.add ('Module', test => {
-  test()
-    .isFunction ('fail', 'exports', app)
-    .isFunction ('fail', 'module', europeana)
-    .done();
+const app = new pkg ({
+  wskey,
+  timeout,
 });
 
 
-dotest.add ('search', test => {
-  const props = {
-    query: 'who:"laurent de la hyre"'
-  };
+dotest.add ('Interface', test => {
+  test()
+    .isClass ('fail', 'exports', pkg)
+    .isFunction ('fail', 'search', app && app.search)
+    .isFunction ('fail', 'getRecord', app && app.getRecord)
+    .isFunction ('fail', 'getRecordThumbnailUrl', app && app.getRecordThumbnailUrl)
+    .isFunction ('fail', 'getEntity', app && app.getEntity)
+    .isFunction ('fail', 'resolveEntity', app && app.resolveEntity)
+    .isFunction ('fail', 'suggestEntities', app && app.suggestEntities)
+    .done()
+  ;
+});
 
-  europeana ('search', props, (err, data) => {
-    test (err)
+
+dotest.add ('search', async test => {
+  try {
+    const data = await app.search ({
+      query: 'who:"laurent de la hyre"',
+    });
+
+    test()
       .isObject ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
       .isExactly ('fail', 'data.success', data && data.success, true)
       .isArray ('fail', 'data.items', data && data.items)
       .isNotEmpty ('warn', 'data.items', data && data.items)
-      .done();
-  });
+      .done()
+    ;
+  }
+
+  catch (err) {
+    test (err).done();
+  }
 });
 
 
-dotest.add ('record', test => {
-  const record = '9200365/BibliographicResource_1000055039444';
-  const props = {
-    profile: 'params'
-  };
+dotest.add ('getRecord', async test => {
+  try {
+    const data = await app.getRecord ({
+      id: '9200365/BibliographicResource_1000055039444',
+    });
 
-  europeana ('record/' + record, props, (err, data) => {
-    test (err)
+    test ()
       .isObject ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
       .isExactly ('fail', 'data.success', data && data.success, true)
       .isObject ('fail', 'data.object', data && data.object)
       .isNotEmpty ('warn', 'data.object', data && data.object)
-      .done();
-  });
+      .done()
+    ;
+  }
+
+  catch (err) {
+    test (err).done();
+  }
 });
 
 
-dotest.add ('translateQuery', test => {
-  const props = {
-    languageCodes: 'nl,en,hu',
-    term: 'painting'
-  };
+dotest.add ('getRecordThumbnailUrl', async test => {
+  try {
+    const data = await app.getRecordThumbnailUrl ({
+      uri: 'https://www.dropbox.com/s/8gpbipwr4ipwj37/Austria_Gerstl.jpg?raw=1',
+      type: 'IMAGE',
+      size: 'w400',
+    });
 
-  europeana ('translateQuery', props, (err, data) => {
-    test (err)
-      .isObject ('fail', 'data', data)
-      .isNotEmpty ('fail', 'data', data)
-      .isExactly ('fail', 'data.success', data && data.success, true)
-      .isArray ('warn', 'data.translations', data && data.translations)
-      .done();
-  });
+    test ()
+      .isString ('fail', 'data', data)
+      .isExactly ('fail', 'data', data, 'https://api.europeana.eu/thumbnail/v2/url.json?uri=https%3A%2F%2Fwww.dropbox.com%2Fs%2F8gpbipwr4ipwj37%2FAustria_Gerstl.jpg%3Fraw%3D1&type=IMAGE&size=w400')
+      .done()
+    ;
+  }
+
+  catch (err) {
+    test (err).done();
+  }
 });
 
 
-dotest.add ('providers normal', test => {
-  europeana ('providers', (err, data) => {
-    test (err)
-      .isObject ('fail', 'data', data)
-      .isNotEmpty ('fail', 'data', data)
-      .isExactly ('fail', 'data.success', data && data.success, true)
-      .isArray ('warn', 'data.items', data && data.items)
-      .done();
-  });
-});
+dotest.add ('API error - HTML', async test => {
+  let error;
+  let data;
 
+  try {
+    data = await app.getRecord ({
+      id: '-',
+    });
+  }
 
-dotest.add ('providers params', test => {
-  const params = {
-    pagesize: 3
-  };
+  catch (err) {
+    error = err;
+  }
 
-  europeana ('providers', params, (err, data) => {
-    const items = data && data.items;
-
-    test (err)
-      .isObject ('fail', 'data', data)
-      .isNotEmpty ('fail', 'data', data)
-      .isExactly ('fail', 'data.success', data && data.success, true)
-      .isArray ('fail', 'data.items', items)
-      .isExactly ('warn', 'data.items.length', items && items.length, 3)
-      .done();
-  });
-});
-
-
-dotest.add ('Error: API error', test => {
-  europeana ('record/-', (err, data) => {
+  finally {
     test()
-      .isError ('fail', 'err', err)
-      .isExactly ('fail', 'err.message', err && err.message, 'API error')
-      .isNumber ('fail', 'err.code', err && err.code)
-      .isString ('fail', 'err.error', err && err.error)
+      .isError ('fail', 'error', error)
+      .isNotEmpty ('fail', 'error.message', error && error.message)
+      .isExactly ('fail', 'error.code', error && error.code, 404)
       .isUndefined ('fail', 'data', data)
-      .done();
-  });
+      .done()
+    ;
+  }
 });
 
 
-dotest.add ('Error: request failed', test => {
-  const tmp = app (apikey, 1);
+dotest.add ('API error - normal', async test => {
+  let error;
+  let data;
 
-  tmp ('providers', (err, data) => {
+  try {
+    data = await app.getRecord ({
+      id: '1111111/TEST',
+    });
+  }
+
+  catch (err) {
+    error = err;
+  }
+
+  finally {
     test()
-      .isError ('fail', 'err', err)
-      .isExactly ('fail', 'err.message', err && err.message, 'request failed')
-      .isError ('fail', 'err.error', err && err.error)
+      .isError ('fail', 'error', error)
+      .isNotEmpty ('fail', 'error.message', error && error.message)
+      .isExactly ('fail', 'error.code', error && error.code, 404)
       .isUndefined ('fail', 'data', data)
-      .done();
-  });
+      .done()
+    ;
+  }
 });
 
 
-dotest.add ('Error: apikey missing', test => {
-  const tmp = app();
+dotest.add ('Error: request timeout', async test => {
+  let error;
+  let data;
 
-  tmp ('providers', (err, data) => {
+  try {
+    const tmp = new pkg ({
+      wskey,
+      timeout: 1,
+    });
+
+    data = await tmp.getRecord ({
+      id: '9200365/BibliographicResource_1000055039444',
+    });
+  }
+
+  catch (err) {
+    error = err;
+  }
+
+  finally {
     test()
-      .isError ('fail', 'err', err)
-      .isExactly ('fail', 'err.message', err && err.message, 'apikey missing')
+      .isError ('fail', 'error', error)
+      .isExactly ('fail', 'error.code', error && error.code, 'TIMEOUT')
       .isUndefined ('fail', 'data', data)
-      .done();
-  });
+      .done()
+    ;
+  }
 });
 
-
-/*
-// Suggestions is unavailable
-// http://labs.europeana.eu/api/suggestions
-dotest.add ('suggestions', test => {
-  const props = {
-    query: 'laurent de la hyre',
-    rows: 10
-  };
-
-  app ('suggestions', props, (err, data) => {
-    test (err)
-      .isObject ('fail', 'data', data)
-      .done();
-  });
-});
-*/
 
 // Start the tests
 dotest.run(500);

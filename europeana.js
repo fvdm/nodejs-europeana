@@ -6,158 +6,194 @@ Source:       https://github.com/fvdm/nodejs-europeana
 License:      Public Domain / Unlicense (see UNLICENSE file)
 */
 
-var http = require ('httpreq');
+const { doRequest } = require ('httpreq');
 
-var settings = {
-  apikey: null,
-  timeout: 5000
-};
+module.exports = class Europeana {
 
-// errors
-// http://www.europeana.eu/portal/api-working-with-api.html#Error-Codes
+  /**
+   * Configuration
+   *
+   * @param   {object}  config
+   * @param   {string}  config.wskey            API KEY
+   * @param   {number}  [config.timeout=15000]  Request timeout in ms
+   */
 
-var errors = {
-  400: 'The request sent by the client was syntactically incorrect',
-  401: 'Authentication credentials were missing or authentication failed.',
-  404: 'The requested record was not found.',
-  429: 'The request could be served because the application has reached its usage limit.',
-  500: 'Internal Server Error. Something has gone wrong, please report to us.'
-};
+  constructor ({
+    wskey,
+    timeout = 15000,
+  }) {
+    this._config = {
+      wskey,
+      timeout,
+    };
 
-
-/**
- * Make and call back error
- *
- * @callback callback
- * @param message {string} - Error.message
- * @param err {mixed} - Error.error
- * @param res {object} - httpreq response details
- * @param callback {function} - `function (err) {}`
- * @returns {void}
- */
-
-function doError (message, err, res, callback) {
-  var error = new Error (message);
-  var code = res && res.statusCode;
-  var body = res && res.body;
-
-  error.code = code;
-  error.error = err || errors [code] || null;
-  error.data = body;
-  callback (error);
-}
-
-
-/**
- * Process response
- *
- * @callback callback
- * @param err {Error, null} - httpreq error
- * @param res {object} - httpreq response details
- * @param callback {function} - `function (err, data) {}`
- * @returns {void}
- */
-
-function httpResponse (err, res, callback) {
-  var data = res && res.body;
-  var html;
-
-  // client failed
-  if (err) {
-    doError ('request failed', err, res, callback);
-    return;
+    this._errors = {
+      400: 'The request sent by the client was syntactically incorrect',
+      401: 'Authentication credentials were missing or authentication failed.',
+      404: 'The requested record was not found.',
+      429: 'The request could be served because the application has reached its usage limit.',
+      500: 'Internal Server Error. Something has gone wrong, please report to us.',
+    };
   }
 
-  // parse response
-  try {
-    data = JSON.parse (data);
-  } catch (reason) {
-    // weird API error
-    if (data.match (/<h1>HTTP Status /)) {
-      html = data.replace (/.*<b>description<\/b> <u>(.+)<\/u><\/p>.*/, '$1');
-      doError ('API error', html, res, callback);
-    } else {
-      doError ('invalid response', reason, res, callback);
+
+  /**
+   * Search records
+   *
+   * @param   {object}  parameters  Method parameters
+   *
+   * @return  {Promise<object>}
+   */
+
+  async search (parameters) {
+    return this._talk ({
+      method: 'GET',
+      url: 'https://api.europeana.eu/record/v2/search.json',
+      parameters,
+    });
+  }
+
+
+  /**
+   * Get a record
+   *
+   * @param   {string}  id  Record ID
+   *
+   * @return  {Promise<object>}
+   */
+
+  async getRecord ({ id }) {
+    return this._talk ({
+      method: 'GET',
+      url: `https://api.europeana.eu/record/v2/${id}.json`,
+    });
+  }
+
+
+  /**
+   * Generate record thumbnail URL
+   *
+   * @param   {string}  uri
+   * @param   {string}  type
+   * @param   {string}  size
+   *
+   * @return  {Promise<object>}
+   */
+
+  async getRecordThumbnailUrl ({ uri, type, size }) {
+    uri = encodeURIComponent (uri);
+
+    return `https://api.europeana.eu/thumbnail/v2/url.json?uri=${uri}&type=${type}&size=${size}`;
+  }
+
+
+  /**
+   * Get an entity
+   *
+   * @param   {string}  type
+   * @param   {string}  scheme
+   * @param   {string}  id
+   *
+   * @return  {Promise<object>}
+   */
+
+  async getEntity ({ type, scheme, id }) {
+    return this._talk ({
+      method: 'GET',
+      url: `https://www.europeana.eu/api/entities/${type}/${scheme}/${id}.json`,
+    });
+  }
+
+
+  /**
+   * Resolve an external URI to an entity
+   *
+   * @param   {string}  uri
+   *
+   * @return  {Promise<object>}
+   */
+
+  async resolveEntity ({ uri }) {
+    uri = encodeURIComponent (uri);
+
+    return this._talk ({
+      method: 'GET',
+      url: 'https://www.europeana.eu/api/entities/resolve',
+      parameters: {
+        uri,
+      },
+    });
+  }
+
+
+  /**
+   * Get suggestions for entities
+   *
+   * @param   {object}  parameters  Method parameters
+   *
+   * @return  {Promise<object>}
+   */
+
+  async suggestEntities (parameters) {
+    return this._talk ({
+      method: 'GET',
+      url: 'https://www.europeana.eu/api/entities/suggest',
+      parameters,
+    });
+  }
+
+
+  /**
+   * Communicate with API
+   *
+   * @param   {string}  url              Request URL
+   * @param   {string}  [method=GET]     HTTP method
+   * @param   {object}  [parameters]     Request parameters
+   * @param   {number}  [timeout=15000]  Request timeout in ms
+   *
+   * @return  {Promise<object>}
+   */
+
+  async _talk ({
+    url,
+    method = 'GET',
+    parameters = {},
+    timeout = this._config.timeout,
+  }) {
+    const options = {
+      url,
+      method,
+      parameters,
+      timeout,
+      headers: {
+        'User-Agent': 'nodejs-europeana',
+      },
+    };
+
+    parameters.wskey = this._config.wskey;
+
+    const res = await doRequest (options);
+
+    if (res.body.match (/^</)) {
+      const error = new Error (this._errors[res.statusCode]);
+
+      error.code = res.statusCode;
+      throw error;
     }
-    return;
-  }
 
-  if (data.apikey) {
-    delete data.apikey;
-  }
+    const data = JSON.parse (res.body);
 
-  // API error
-  if (!data.success && data.error) {
-    doError ('API error', data.error, res, callback);
-    return;
-  }
+    if (data.error) {
+      const error = new Error (data.error);
 
-  if (res.statusCode >= 300) {
-    doError ('API error', null, res, callback);
-    return;
-  }
+      error.code = res.statusCode;
+      error.statsDuration = data.statsDuration;
 
-  // all good
-  callback (null, data);
-}
-
-
-/**
- * Communicate with API
- *
- * @callback callback
- * @param path {string} - Method path between `/v2/` and `.json`
- * @param fields {object} - Method parameters
- * @param callback {function} - `function (err, data) {}`
- * @returns {void}
- */
-
-function httpRequest (path, fields, callback) {
-  var options = {
-    method: 'GET',
-    url: 'https://www.europeana.eu/api/v2/' + path + '.json',
-    parameters: fields,
-    timeout: settings.timeout,
-    headers: {
-      'User-Agent': 'europeana.js'
+      throw error;
     }
-  };
 
-  if (typeof fields === 'function') {
-    callback = fields;
-    options.parameters = {};
+    data.statusCode = res.statusCode;
+    return data;
   }
 
-  // Request
-
-  // check API key
-  if (!settings.apikey) {
-    callback (new Error ('apikey missing'));
-    return;
-  }
-
-  options.parameters.wskey = settings.apikey;
-
-  function doResponse (err, res) {
-    httpResponse (err, res, callback);
-  }
-
-  http.doRequest (options, doResponse);
-}
-
-
-/**
- * Module interface
- *
- * @param [apikey] {string} - Your Europeana API key
- * @param [timeout = 5000] {number} - Request wait timeout in ms
- * @returns httpRequest {function}
- */
-
-function setup (apikey, timeout) {
-  settings.apikey = apikey || null;
-  settings.timeout = timeout || settings.timeout;
-  return httpRequest;
-}
-
-module.exports = setup;
+};
