@@ -1,11 +1,9 @@
 /*
 Name:         europeana.js
-Description:  Unofficial node.js module for the Europeana API
+Description:  Unofficial Node.js module for the Europeana API
 Author:       Franklin (https://fvdm.com)
 Source:       https://github.com/fvdm/nodejs-europeana
-Feedback:     https://github.com/fvdm/nodejs-europeana/issues
 License:      Public Domain / Unlicense (see UNLICENSE file)
-              (https://github.com/fvdm/nodejs-europeana/raw/master/UNLICENSE)
 */
 
 var http = require ('httpreq');

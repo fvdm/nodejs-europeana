@@ -1,14 +1,14 @@
-europeana
-=========
+# europeana
 
-Unofficial Node.js module for the Europeana API. Search and lookup art in various archives across Europe.
+Unofficial Node.js module for the Europeana API.
+Search and lookup art in various archives across Europe.
 
 [![npm](https://img.shields.io/npm/v/europeana.svg?maxAge=3600)](https://github.com/fvdm/nodejs-europeana/blob/master/CHANGELOG.md)
 [![Build Status](https://github.com/fvdm/nodejs-europeana/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/fvdm/nodejs-europeana/actions/workflows/node.js.yml)
 [![Coverage Status](https://coveralls.io/repos/github/fvdm/nodejs-europeana/badge.svg?branch=master)](https://coveralls.io/github/fvdm/nodejs-europeana?branch=master)
 
-* [Europeana](http://europeana.eu/)
-* [API documentation](http://labs.europeana.eu/api)
+* [Europeana](https://europeana.eu/)
+* [API documentation](https://pro.europeana.eu/)
 
 
 Example
@@ -126,7 +126,7 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-For more information, please refer to <http://unlicense.org/>
+For more information, please refer to <https://unlicense.org/>
 
 
 Author

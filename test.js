@@ -158,4 +158,4 @@ dotest.add ('suggestions', test => {
 */
 
 // Start the tests
-dotest.run();
+dotest.run(500);
