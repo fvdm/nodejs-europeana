@@ -16,13 +16,13 @@
   },
   "main": "europeana.js",
   "dependencies": {
-    "httpreq": "^0.5.1"
+    "httpreq": "^0.5.2"
   },
   "devDependencies": {
-    "dotest": "^2.1.0"
+    "dotest": "^2.10.0"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=12"
   },
   "scripts": {
     "test": "dotest"
