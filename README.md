@@ -55,12 +55,11 @@ europeana.getRecord ({
 
 ## Configuration
 
-You _must_ specify an API key which you can request
-**[here](https://pro.europeana.eu/pages/get-api)**
+You can request an API key **[here](https://pro.europeana.eu/pages/get-api)**
 
 param     | type   | default | description
 :---------|:-------|:--------|:-----------
-wskey     | string |         | API key. Do not use your private key.
+wskey     | string |         | API key
 [timeout] | number | `5000`  | Request timeout in ms
 
 
