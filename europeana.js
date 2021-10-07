@@ -172,6 +172,7 @@ module.exports = class Europeana {
       parameters,
       timeout,
       headers: {
+        'Accept': 'application/json',
         'User-Agent': 'nodejs-europeana',
       },
     };
