@@ -75,7 +75,7 @@ module.exports = class Europeana {
    * @param   {string}  type
    * @param   {string}  size
    *
-   * @return  {Promise<object>}
+   * @return  {Promise<string>}
    */
 
   async getRecordThumbnailUrl ({ uri, type, size }) {
