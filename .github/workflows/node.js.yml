@@ -56,7 +56,7 @@ jobs:
       - run: echo "Build was sucessfull"
 
   finish:
-    name: "Finish"
+    name: "Upload coverage"
     needs: build
     if: always()
     runs-on: ubuntu-latest
