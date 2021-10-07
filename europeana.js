@@ -88,68 +88,6 @@ module.exports = class Europeana {
 
 
   /**
-   * Get an entity
-   *
-   * @param   {string}  type
-   * @param   {string}  scheme
-   * @param   {string}  id
-   *
-   * @return  {Promise<object>}
-   */
-
-  async getEntity ({ type, scheme, id }) {
-    return this._talk ({
-      method: 'GET',
-      url: `https://entity-api.europeana.eu/entity/${type}/${scheme}/${id}.jsonld`,
-    });
-  }
-
-
-  /**
-   * Resolve an external URI to an entity URL
-   *
-   * @param   {string}  uri
-   *
-   * @return  {Promise<string>}
-   */
-
-  async resolveEntity ({ uri }) {
-    uri = encodeURIComponent (uri);
-
-    const data = await this._talk ({
-      method: 'GET',
-      url: 'https://www.europeana.eu/api/entities/resolve',
-      parameters: {
-        uri,
-      },
-    });
-
-    if (data.statusCode === 301) {
-      return data.headers.location;
-    }
-
-    return '';
-  }
-
-
-  /**
-   * Get suggestions for entities
-   *
-   * @param   {object}  parameters  Method parameters
-   *
-   * @return  {Promise<object>}
-   */
-
-  async suggestEntities (parameters) {
-    return this._talk ({
-      method: 'GET',
-      url: 'https://www.europeana.eu/api/entities/suggest',
-      parameters,
-    });
-  }
-
-
-  /**
    * Communicate with API
    *
    * @param   {string}  url              Request URL

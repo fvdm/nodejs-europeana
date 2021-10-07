@@ -18,9 +18,6 @@ dotest.add ('Interface', test => {
     .isFunction ('fail', 'search', app && app.search)
     .isFunction ('fail', 'getRecord', app && app.getRecord)
     .isFunction ('fail', 'getRecordThumbnailUrl', app && app.getRecordThumbnailUrl)
-    .isFunction ('fail', 'getEntity', app && app.getEntity)
-    .isFunction ('fail', 'resolveEntity', app && app.resolveEntity)
-    .isFunction ('fail', 'suggestEntities', app && app.suggestEntities)
     .done()
   ;
 });
@@ -81,47 +78,6 @@ dotest.add ('getRecordThumbnailUrl', async test => {
     test()
       .isString ('fail', 'data', data)
       .isExactly ('fail', 'data', data, 'https://api.europeana.eu/thumbnail/v2/url.json?uri=https%3A%2F%2Fwww.dropbox.com%2Fs%2F8gpbipwr4ipwj37%2FAustria_Gerstl.jpg%3Fraw%3D1&type=IMAGE&size=w400')
-      .done()
-    ;
-  }
-
-  catch (err) {
-    test (err).done();
-  }
-});
-
-
-dotest.add ('getEntity', async test => {
-  try {
-    const data = await app.getEntity({
-      type: 'agent',
-      scheme: 'base',
-      id: '147466',
-    });
-
-    test()
-      .isObject ('fail', 'data', data)
-      .isNotEmpty ('fail', 'data', data)
-      .isExactly ('fail', 'data.success', data && data.success, true)
-      .done()
-    ;
-  }
-
-  catch (err) {
-    test (err).done();
-  }
-});
-
-
-dotest.add ('resolveEntity', async test => {
-  try {
-    const data = await app.resolveEntity({
-      uri: 'https://dbpedia.org/page/Leonardo_da_Vinci',
-    });
-
-    test()
-      .isString ('fail', 'data', data)
-      .isNotEmpty ('fail', 'data', data)
       .done()
     ;
   }
