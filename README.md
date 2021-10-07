@@ -11,93 +11,66 @@ Search and lookup art in various archives across Europe.
 * [API documentation](https://pro.europeana.eu/)
 
 
-Example
--------
+## Usage example
 
 ```js
-const europeana = require ('europeana') ('abc123');
+const EuropeanaAPI = require ('europeana');
+const europeana = new EuropeanaAPI ({
+  wskey: 'abc123',
+});
 
-// Search
-const params = {
-  query: 'et in arcadia ego',
-  rows: 5,
-};
-
-europeana ('search', params, console.log);
-
-
-// Record
-const recordId = '/08501/03F4577D418DC84979C4E2EE36F99FECED4C7B11';
-
-europeana (`record${recordId}`, console.log);
-```
-
-
-Installation
-------------
-
-`npm i europeana`
-
-
-Configuration
--------------
-
-You _must_ specify an API key which you can request **[here](http://labs.europeana.eu/api/registration)**
-
-param   | type   | required | default | description
-:-------|:-------|:---------|:--------|:----------------------
-apikey  | string | yes      |         | Your API key. Do not use your private key.
-timeout | number | no       | 5000    | Request time out in ms
-
-
-#### Example
-
-```js
-const apikey = 'abc123';
-const timeout = 3000;
-
-var europeana = require ('europeana') (apikey, timeout);
-```
-
-
-Callback
---------
-
-Each method requires a callback _function_ to receive the results.
-
-It receives two parameters: `err` and `data`.
-
-property | type   | default | description
-:--------|:-------|:--------|:-----------------------------
-err      | Error  | null    | Includes `.code` and `.error`
-data     | Object |         | Result object
-
-
-#### Example
-
-```js
-function myCallback (err, data) {
-  if (err) return console.error (err);
-
+// console.log is too limited
+function out (data) {
   console.dir (data, {
     depth: null,
     colors: true,
   });
 }
 
+
 // Search
-europeana ('search', { query: 'vincent van gogh' }, myCallback);
+europeana.search ({
+  query: 'et in arcadia ego',
+  rows: 5,
+})
+  .then (out)
+  .catch (console.error)
+;
+
+
+// Record
+europeana.getRecord ({
+  id: '08501/03F4577D418DC84979C4E2EE36F99FECED4C7B11',
+})
+  .then (out)
+  .catch (console.error)
+;
 ```
 
 
-#### Errors
+## Installation
 
-message          | description                  | additional
-:----------------|:-----------------------------|:-----------------------
-apikey missing   | You did not set your API key |
-request failed   | The request failed           | `err.error`
-invalid response | API returned invalid data    |
-API error        | API returned an error        | `err.error`, `err.code`
+`npm install europeana`
+
+
+## Configuration
+
+You _must_ specify an API key which you can request
+**[here](https://pro.europeana.eu/pages/get-api)**
+
+param     | type   | default | description
+:---------|:-------|:--------|:-----------
+wskey     | string |         | API key. Do not use your private key.
+[timeout] | number | `5000`  | Request timeout in ms
+
+
+```js
+const EuropeanaAPI = require ('europeana');
+const europeana = new EuropeanaAPI ({
+  wskey: 'abc123',
+  timeout: 5000,
+});
+```
 
 
 Unlicense
