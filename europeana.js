@@ -181,6 +181,7 @@ module.exports = class Europeana {
 
     const res = await doRequest (options);
 
+    // Process HTML error
     if (res.body.match (/^</)) {
       const error = new Error (this._errors[res.statusCode]);
 
@@ -188,8 +189,10 @@ module.exports = class Europeana {
       throw error;
     }
 
+    // Parse JSON data
     const data = JSON.parse (res.body);
 
+    // Process API error
     if (data.error) {
       const error = new Error (data.error);
 
@@ -199,6 +202,7 @@ module.exports = class Europeana {
       throw error;
     }
 
+    // Success
     data.statusCode = res.statusCode;
     data.headers = res.headers;
 

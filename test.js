@@ -54,7 +54,7 @@ dotest.add ('getRecord', async test => {
       id: '9200365/BibliographicResource_1000055039444',
     });
 
-    test ()
+    test()
       .isObject ('fail', 'data', data)
       .isNotEmpty ('fail', 'data', data)
       .isExactly ('fail', 'data.success', data && data.success, true)
@@ -78,7 +78,7 @@ dotest.add ('getRecordThumbnailUrl', async test => {
       size: 'w400',
     });
 
-    test ()
+    test()
       .isString ('fail', 'data', data)
       .isExactly ('fail', 'data', data, 'https://api.europeana.eu/thumbnail/v2/url.json?uri=https%3A%2F%2Fwww.dropbox.com%2Fs%2F8gpbipwr4ipwj37%2FAustria_Gerstl.jpg%3Fraw%3D1&type=IMAGE&size=w400')
       .done()
@@ -136,7 +136,7 @@ dotest.add ('API error - HTML', async test => {
 });
 
 
-dotest.add ('API error - normal', async test => {
+dotest.add ('API error - JSON', async test => {
   let error;
   let data;
 
