@@ -56,7 +56,7 @@ europeana.getRecord ({
 ## Configuration
 
 You _must_ specify an API key which you can request
-**[here](http://pro.europeana.eu/api/registration)**
+**[here](https://pro.europeana.eu/pages/get-api)**
 
 param     | type   | default | description
 :---------|:-------|:--------|:-----------
