@@ -21,4 +21,3 @@ updates:
       prefix-development: "Chore(devdeps)"
     allow:
       - dependency-type: "production"
-
