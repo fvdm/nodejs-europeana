@@ -177,7 +177,7 @@ module.exports = class Europeana {
       },
     };
 
-    parameters.wskey = this._config.wskey;
+    options.parameters.wskey = this._config.wskey;
 
     const res = await doRequest (options);
 
