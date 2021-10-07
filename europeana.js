@@ -3,7 +3,7 @@ Name:         europeana.js
 Description:  Unofficial Node.js module for the Europeana API
 Author:       Franklin (https://fvdm.com)
 Source:       https://github.com/fvdm/nodejs-europeana
-License:      Public Domain / Unlicense (see UNLICENSE file)
+License:      Public Domain / Unlicense (see LICENSE file)
 */
 
 const { doRequest } = require ('httpreq');
