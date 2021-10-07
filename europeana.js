@@ -100,7 +100,7 @@ module.exports = class Europeana {
   async getEntity ({ type, scheme, id }) {
     return this._talk ({
       method: 'GET',
-      url: `https://www.europeana.eu/api/entities/${type}/${scheme}/${id}.json`,
+      url: `https://entity-api.europeana.eu/entity/${type}/${scheme}/${id}.jsonld`,
     });
   }
 
