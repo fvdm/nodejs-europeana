@@ -47,7 +47,6 @@ module.exports = class Europeana {
 
   async search (parameters) {
     return this._talk ({
-      method: 'GET',
       url: 'https://api.europeana.eu/record/v2/search.json',
       parameters,
     });
@@ -64,7 +63,6 @@ module.exports = class Europeana {
 
   async getRecord ({ id }) {
     return this._talk ({
-      method: 'GET',
       url: `https://api.europeana.eu/record/v2/${id}.json`,
     });
   }
@@ -91,7 +89,6 @@ module.exports = class Europeana {
    * Communicate with API
    *
    * @param   {string}  url              Request URL
-   * @param   {string}  [method=GET]     HTTP method
    * @param   {object}  [parameters]     Request parameters
    * @param   {number}  [timeout=15000]  Request timeout in ms
    *
@@ -100,15 +97,14 @@ module.exports = class Europeana {
 
   async _talk ({
     url,
-    method = 'GET',
     parameters = {},
     timeout = this._config.timeout,
   }) {
     const options = {
       url,
-      method,
       parameters,
       timeout,
+      method: 'GET',
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'nodejs-europeana',
