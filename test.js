@@ -91,6 +91,28 @@ dotest.add ('getRecordThumbnailUrl', async test => {
 });
 
 
+dotest.add ('getEntity', async test => {
+  try {
+    const data = await app.getEntity({
+      type: 'agent',
+      scheme: 'base',
+      id: '147466',
+    });
+
+    test()
+      .isObject ('fail', 'data', data)
+      .isNotEmpty ('fail', 'data', data)
+      .isExactly ('fail', 'data.success', data && data.success, true)
+      .done()
+    ;
+  }
+
+  catch (err) {
+    test (err).done();
+  }
+});
+
+
 dotest.add ('resolveEntity', async test => {
   try {
     const data = await app.resolveEntity({
