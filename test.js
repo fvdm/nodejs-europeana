@@ -91,6 +91,25 @@ dotest.add ('getRecordThumbnailUrl', async test => {
 });
 
 
+dotest.add ('resolveEntity', async test => {
+  try {
+    const data = await app.resolveEntity({
+      uri: 'https://dbpedia.org/page/Leonardo_da_Vinci',
+    });
+
+    test()
+      .isString ('fail', 'data', data)
+      .isNotEmpty ('fail', 'data', data)
+      .done()
+    ;
+  }
+
+  catch (err) {
+    test (err).done();
+  }
+});
+
+
 dotest.add ('API error - HTML', async test => {
   let error;
   let data;

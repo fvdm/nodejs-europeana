@@ -106,23 +106,29 @@ module.exports = class Europeana {
 
 
   /**
-   * Resolve an external URI to an entity
+   * Resolve an external URI to an entity URL
    *
    * @param   {string}  uri
    *
-   * @return  {Promise<object>}
+   * @return  {Promise<string>}
    */
 
   async resolveEntity ({ uri }) {
     uri = encodeURIComponent (uri);
 
-    return this._talk ({
+    const data = await this._talk ({
       method: 'GET',
       url: 'https://www.europeana.eu/api/entities/resolve',
       parameters: {
         uri,
       },
     });
+
+    if (data.statusCode === 301) {
+      return data.headers.location;
+    }
+
+    return '';
   }
 
 
@@ -193,6 +199,8 @@ module.exports = class Europeana {
     }
 
     data.statusCode = res.statusCode;
+    data.headers = res.headers;
+
     return data;
   }
 
