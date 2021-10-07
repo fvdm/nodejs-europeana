@@ -197,15 +197,12 @@ module.exports = class Europeana {
       const error = new Error (data.error);
 
       error.code = res.statusCode;
-      error.statsDuration = data.statsDuration;
-
       throw error;
     }
 
     // Success
     data.statusCode = res.statusCode;
     data.headers = res.headers;
-
     return data;
   }
 
