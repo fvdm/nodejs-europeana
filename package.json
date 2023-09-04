@@ -17,7 +17,7 @@
   "main": "europeana.js",
   "dependencies": {},
   "devDependencies": {
-    "dotest": "^2.10.0"
+    "dotest": "^2"
   },
   "engines": {
     "node": ">=18"
