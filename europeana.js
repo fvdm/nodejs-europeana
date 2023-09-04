@@ -99,7 +99,7 @@ module.exports = class Europeana {
     timeout = this._config.timeout,
   }) {
     const options = {
-      signal: AbortSignal.timeout (timeout),
+      signal: AbortSignal.timeout (parseInt (timeout, 10)),
       method: 'GET',
       headers: {
         'Accept': 'application/json',
