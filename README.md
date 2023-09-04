@@ -8,7 +8,7 @@ Search and lookup art in various archives across Europe.
 [![Coverage Status](https://coveralls.io/repos/github/fvdm/nodejs-europeana/badge.svg?branch=master)](https://coveralls.io/github/fvdm/nodejs-europeana?branch=master)
 
 * [Europeana](https://europeana.eu/)
-* [API documentation](https://pro.europeana.eu/)
+* [API documentation](https://pro.europeana.eu/page/apis)
 
 
 ## Usage example
