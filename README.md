@@ -108,12 +108,14 @@ id    | string | Record identifier
 
 #### Example
 
+```js
 europeana.getRecord ({
   id: '08501/03F4577D418DC84979C4E2EE36F99FECED4C7B11',
 })
   .then (out)
   .catch (console.error)
 ;
+```
 
 
 ### getRecordThumbnailUrl
@@ -141,7 +143,7 @@ europeans.getRecord ({
     uri: data.edmPreview,
     type: 'IMAGE',
     size: 'w400',
-  })
+  }))
   .then (out)
   .catch (console.error)
 ; 
