@@ -136,7 +136,7 @@ size  | string | `w200` or `w400`
 #### Example
 
 ```js
-europeans.getRecord ({
+europeana.getRecord ({
   id: '08501/03F4577D418DC84979C4E2EE36F99FECED4C7B11',
 })
   .then (data => europeana.getRecordThumbnailUrl ({
