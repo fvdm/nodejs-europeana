@@ -63,6 +63,13 @@ const europeana = new EuropeanaAPI ({
 ```
 
 
+## Errors
+
+All methods have proper error handeling through `Promise.reject`.
+API errors are also caught this same way.
+Either parsed from the JSON response or translated from the HTTP code when the API returns HTML.
+
+
 ## Methods
 
 Each method takes the arguments in object notation.

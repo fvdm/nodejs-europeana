@@ -109,7 +109,6 @@ module.exports = class Europeana {
 
     parameters.wskey = this._config.wskey;
     parameters = new URLSearchParams (parameters);
-
     url += '?' + parameters;
 
     const res = await fetch (url, options);
@@ -117,7 +116,8 @@ module.exports = class Europeana {
 
     // HTML error
     if (body.match (/^</)) {
-      const error = new Error (this._errors[res.status]);
+      const msg = this._errors[res.status] || res.statusText;
+      const error = new Error (`API error: ${msg}`);
 
       error.code = res.status;
       throw error;
@@ -128,7 +128,7 @@ module.exports = class Europeana {
 
     // API error
     if (data.error) {
-      const error = new Error (data.error);
+      const error = new Error (`API error: ${data.error}`);
 
       error.code = res.status;
       throw error;
