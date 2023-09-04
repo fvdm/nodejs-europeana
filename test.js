@@ -166,7 +166,7 @@ dotest.add ('Error: request timeout', async test => {
   finally {
     test()
       .isError ('fail', 'error', error)
-      .isExactly ('fail', 'error.code', error && error.code, 'TIMEOUT')
+      .isExactly ('fail', 'error.name', error && error.code, 'TimeoutError')
       .isUndefined ('fail', 'data', data)
       .done()
     ;

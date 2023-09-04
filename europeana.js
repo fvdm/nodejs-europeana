@@ -6,8 +6,6 @@ Source:       https://github.com/fvdm/nodejs-europeana
 License:      Public Domain / Unlicense (see LICENSE file)
 */
 
-const { doRequest } = require ('httpreq');
-
 module.exports = class Europeana {
 
   /**
@@ -101,9 +99,7 @@ module.exports = class Europeana {
     timeout = this._config.timeout,
   }) {
     const options = {
-      url,
-      parameters,
-      timeout,
+      signal: AbortSignal.timeout (timeout),
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -111,31 +107,34 @@ module.exports = class Europeana {
       },
     };
 
-    options.parameters.wskey = this._config.wskey;
+    parameters.wskey = this._config.wskey;
+    parameters = new URLSearchParams (parameters);
 
-    const res = await doRequest (options);
+    url += '?' + parameters;
 
-    // Process HTML error
-    if (res.body.match (/^</)) {
-      const error = new Error (this._errors[res.statusCode]);
+    const res = await fetch (url, options);
 
-      error.code = res.statusCode;
+    // HTML error
+    if ( ! res.ok ) {
+      const error = new Error (this._errors[res.status]);
+
+      error.code = res.status;
       throw error;
     }
 
     // Parse JSON data
-    const data = JSON.parse (res.body);
+    const data = await res.json();
 
-    // Process API error
+    // API error
     if (data.error) {
       const error = new Error (data.error);
 
-      error.code = res.statusCode;
+      error.code = res.status;
       throw error;
     }
 
     // Success
-    data.statusCode = res.statusCode;
+    data.statusCode = res.status;
     data.headers = res.headers;
     return data;
   }
