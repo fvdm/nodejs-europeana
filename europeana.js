@@ -113,10 +113,9 @@ module.exports = class Europeana {
     url += '?' + parameters;
 
     const res = await fetch (url, options);
+    const body = await res.text();
 
     // HTML error
-    const body = await res.text();
- 
     if (body.match (/^</)) {
       const error = new Error (this._errors[res.status]);
 
@@ -125,7 +124,7 @@ module.exports = class Europeana {
     }
 
     // Parse JSON data
-    const data = await res.json();
+    const data = JSON.parse (body);
 
     // API error
     if (data.error) {
