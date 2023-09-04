@@ -115,7 +115,9 @@ module.exports = class Europeana {
     const res = await fetch (url, options);
 
     // HTML error
-    if ( ! res.ok ) {
+    const body = await res.text();
+ 
+    if (body.match (/^</)) {
       const error = new Error (this._errors[res.status]);
 
       error.code = res.status;
