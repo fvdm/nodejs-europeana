@@ -74,9 +74,9 @@ They all return a Promise.
 
 Perform a search in the Europeana database.
 
-param | type  | default | description
-:-----|:------|:--------|:-----------
-...   | mixed |         | One or multiple parameters
+param | type  | description
+:-----|:------|:-----------
+...   | mixed | One or multiple parameters
 
 [Available params](https://pro.europeana.eu/page/search#get-started)
 
