@@ -36,15 +36,6 @@ europeana.search ({
   .then (out)
   .catch (console.error)
 ;
-
-
-// Record
-europeana.getRecord ({
-  id: '08501/03F4577D418DC84979C4E2EE36F99FECED4C7B11',
-})
-  .then (out)
-  .catch (console.error)
-;
 ```
 
 
@@ -71,6 +62,90 @@ const europeana = new EuropeanaAPI ({
 });
 ```
 
+
+## Methods
+
+Each method takes the arguments in object notation.
+They all return a Promise.
+
+
+### Search
+**({ ... })** : array
+
+Perform a search in the Europeana database.
+
+param | type  | default | description
+:-----|:------|:--------|:-----------
+...   | mixed |         | One or multiple parameters
+
+[Available params](https://pro.europeana.eu/page/search#get-started)
+
+
+#### Example
+
+```js
+europeana.search ({
+  query: 'et in arcadia ego',
+  rows: 5,
+})
+  .then (out)
+  .catch (console.error)
+;
+```
+
+
+### getRecord
+**({ id })** : object
+
+Get one specific record.
+
+param | type   | description
+:-----|:-------|:-----------
+id    | string | Record identifier
+
+[ID spec](https://pro.europeana.eu/page/intro#identifying-records)
+
+
+#### Example
+
+europeana.getRecord ({
+  id: '08501/03F4577D418DC84979C4E2EE36F99FECED4C7B11',
+})
+  .then (out)
+  .catch (console.error)
+;
+
+
+### getRecordThumbnailUrl
+**({ uri, type, size })** : string
+
+Get the thumbnail URL for a record.
+The resource `uri` is provided in the record `edmPreview` field.
+
+param | type   | description
+:-----|:-------|:-----------
+uri   | string | Media resource URL
+type  | string | Media resource type
+size  | string | `w200` or `w400`
+
+[API docs](https://pro.europeana.eu/page/record#thumbnails)
+
+
+#### Example
+
+```js
+europeans.getRecord ({
+  id: '08501/03F4577D418DC84979C4E2EE36F99FECED4C7B11',
+})
+  .then (data => europeana.getRecordThumbnailUrl ({
+    uri: data.edmPreview,
+    type: 'IMAGE',
+    size: 'w400',
+  })
+  .then (out)
+  .catch (console.error)
+; 
+```
 
 Unlicense
 ---------
