@@ -40,7 +40,7 @@ module.exports = class Europeana {
    *
    * @param   {object}  parameters  Method parameters
    *
-   * @return  {Promise<object>}
+   * @return  {Promise<array>}
    */
 
   async search (parameters) {
@@ -137,6 +137,7 @@ module.exports = class Europeana {
     // Success
     data.statusCode = res.status;
     data.headers = res.headers;
+
     return data;
   }
 
