@@ -17,9 +17,12 @@ module.exports = class Europeana {
    */
 
   constructor ( {
+
     wskey,
     timeout = 15000,
+
   } ) {
+
     this._config = {
       wskey,
       timeout,
@@ -32,6 +35,7 @@ module.exports = class Europeana {
       429: 'The request could be served because the application has reached its usage limit.',
       500: 'Internal Server Error. Something has gone wrong, please report to us.',
     };
+
   }
 
 
@@ -94,10 +98,13 @@ module.exports = class Europeana {
    */
 
   async _talk ( {
+
     url,
     parameters = {},
     timeout = this._config.timeout,
+
   } ) {
+
     const options = {
       signal: AbortSignal.timeout( parseInt( timeout, 10 ) ),
       method: 'GET',

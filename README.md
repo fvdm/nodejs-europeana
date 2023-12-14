@@ -14,27 +14,27 @@ Search and lookup art in various archives across Europe.
 ## Usage example
 
 ```js
-const EuropeanaAPI = require ('europeana');
-const europeana = new EuropeanaAPI ({
+const EuropeanaAPI = require( 'europeana' );
+const europeana = new EuropeanaAPI( {
   wskey: 'abc123',
-});
+} );
 
 // console.log is too limited
-function out (data) {
-  console.dir (data, {
+function out( data ) {
+  console.dir( data, {
     depth: null,
     colors: true,
-  });
+  } );
 }
 
 
 // Search
-europeana.search ({
+europeana.search( {
   query: 'et in arcadia ego',
   rows: 5,
-})
-  .then (out)
-  .catch (console.error)
+} )
+  .then( out )
+  .catch( console.error )
 ;
 ```
 
@@ -55,11 +55,11 @@ wskey     | string |         | API key
 
 
 ```js
-const EuropeanaAPI = require ('europeana');
-const europeana = new EuropeanaAPI ({
+const EuropeanaAPI = require( 'europeana' );
+const europeana = new EuropeanaAPI( {
   wskey: 'abc123',
   timeout: 5000,
-});
+} );
 ```
 
 
@@ -77,7 +77,7 @@ They all return a Promise.
 
 
 ### Search
-**({ ... })** : array
+**( { ... } )** : array
 
 Perform a search in the Europeana database.
 
@@ -91,18 +91,18 @@ param | type  | description
 #### Example
 
 ```js
-europeana.search ({
+europeana.search( {
   query: 'et in arcadia ego',
   rows: 5,
-})
-  .then (out)
-  .catch (console.error)
+} )
+  .then( out )
+  .catch( console.error )
 ;
 ```
 
 
 ### getRecord
-**({ id })** : object
+**( { id } )** : object
 
 Get one specific record.
 
@@ -116,17 +116,17 @@ id    | string | Record identifier
 #### Example
 
 ```js
-europeana.getRecord ({
+europeana.getRecord( {
   id: '08501/03F4577D418DC84979C4E2EE36F99FECED4C7B11',
-})
-  .then (out)
-  .catch (console.error)
+} )
+  .then( out )
+  .catch( console.error )
 ;
 ```
 
 
 ### getRecordThumbnailUrl
-**({ uri, type, size })** : string
+**( { uri, type, size } )** : string
 
 Get the thumbnail URL for a record.
 The resource `uri` is provided in the record `edmPreview` field.
@@ -143,16 +143,16 @@ size  | string | `w200` or `w400`
 #### Example
 
 ```js
-europeana.getRecord ({
+europeana.getRecord( {
   id: '08501/03F4577D418DC84979C4E2EE36F99FECED4C7B11',
-})
-  .then (data => europeana.getRecordThumbnailUrl ({
+} )
+  .then( data => europeana.getRecordThumbnailUrl( {
     uri: data.edmPreview,
     type: 'IMAGE',
     size: 'w400',
-  }))
-  .then (out)
-  .catch (console.error)
+  } ) )
+  .then( out )
+  .catch( console.error )
 ; 
 ```
 
