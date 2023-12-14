@@ -16,10 +16,10 @@ module.exports = class Europeana {
    * @param   {number}  [config.timeout=15000]  Request timeout in ms
    */
 
-  constructor ({
+  constructor ( {
     wskey,
     timeout = 15000,
-  }) {
+  } ) {
     this._config = {
       wskey,
       timeout,
@@ -43,11 +43,11 @@ module.exports = class Europeana {
    * @return  {Promise<array>}
    */
 
-  async search (parameters) {
-    return this._talk ({
+  async search ( parameters ) {
+    return this._talk( {
       url: 'https://api.europeana.eu/record/v2/search.json',
       parameters,
-    });
+    } );
   }
 
 
@@ -59,10 +59,10 @@ module.exports = class Europeana {
    * @return  {Promise<object>}
    */
 
-  async getRecord ({ id }) {
-    return this._talk ({
+  async getRecord ( { id } ) {
+    return this._talk( {
       url: `https://api.europeana.eu/record/v2/${id}.json`,
-    });
+    } );
   }
 
 
@@ -76,8 +76,8 @@ module.exports = class Europeana {
    * @return  {Promise<string>}
    */
 
-  async getRecordThumbnailUrl ({ uri, type, size }) {
-    uri = encodeURIComponent (uri);
+  async getRecordThumbnailUrl ( { uri, type, size } ) {
+    uri = encodeURIComponent( uri );
 
     return `https://api.europeana.eu/thumbnail/v2/url.json?uri=${uri}&type=${type}&size=${size}`;
   }
@@ -93,13 +93,13 @@ module.exports = class Europeana {
    * @return  {Promise<object>}
    */
 
-  async _talk ({
+  async _talk ( {
     url,
     parameters = {},
     timeout = this._config.timeout,
-  }) {
+  } ) {
     const options = {
-      signal: AbortSignal.timeout (parseInt (timeout, 10)),
+      signal: AbortSignal.timeout( parseInt( timeout, 10 ) ),
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -108,27 +108,27 @@ module.exports = class Europeana {
       },
     };
 
-    parameters = new URLSearchParams (parameters);
+    parameters = new URLSearchParams( parameters );
     url += '?' + parameters;
 
-    const res = await fetch (url, options);
+    const res = await fetch( url, options );
     const body = await res.text();
 
     // HTML error
-    if (body.match (/^</)) {
+    if ( body.match( /^</ ) ) {
       const msg = this._errors[res.status] || res.statusText;
-      const error = new Error (`API error: ${msg}`);
+      const error = new Error( `API error: ${msg}` );
 
       error.code = res.status;
       throw error;
     }
 
     // Parse JSON data
-    const data = JSON.parse (body);
+    const data = JSON.parse( body );
 
     // API error
-    if (data.error) {
-      const error = new Error (`API error: ${data.error}`);
+    if ( data.error ) {
+      const error = new Error( `API error: ${data.error}` );
 
       error.code = res.status;
       throw error;
