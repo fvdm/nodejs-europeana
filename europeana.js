@@ -104,10 +104,10 @@ module.exports = class Europeana {
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'nodejs-europeana',
+        'X-Api-Key': this._config.wskey,
       },
     };
 
-    parameters.wskey = this._config.wskey;
     parameters = new URLSearchParams (parameters);
     url += '?' + parameters;
 
