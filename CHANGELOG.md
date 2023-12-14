@@ -1,3 +1,55 @@
+## 2.0.0 (2023-12-14)
+
+##### Chores
+
+* **github:**
+  *  Bump github/codeql-action from 2 to 3 ([#26](https://github.com/fvdm/nodejs-europeana/pull/26)) ([d0b1dc83](https://github.com/fvdm/nodejs-europeana/commit/d0b1dc838af452777fd4f617cc94388e6c29b59b))
+  *  Update node action ([2a4f8685](https://github.com/fvdm/nodejs-europeana/commit/2a4f8685e23ee2d93ec865deaf39f9756602124d))
+  *  Bump actions/setup-node from 3 to 4 ([#25](https://github.com/fvdm/nodejs-europeana/pull/25)) ([05f15393](https://github.com/fvdm/nodejs-europeana/commit/05f15393b4f7a35eac9080fc0ca97433b5bd08c2))
+  *  Bump actions/checkout from 3 to 4 ([#24](https://github.com/fvdm/nodejs-europeana/pull/24)) ([eb7b9506](https://github.com/fvdm/nodejs-europeana/commit/eb7b95067c665a2e589fda36105b0272c02e9aa4))
+  *  Update node workflow ([eb5e6a9e](https://github.com/fvdm/nodejs-europeana/commit/eb5e6a9e9542c1162a158ec0904354bda447703b))
+  *  Allow manual workflow runs ([f838d05b](https://github.com/fvdm/nodejs-europeana/commit/f838d05be1c89ad13586ecb93e218ca7ac075b7c))
+  *  Bump github/codeql-action from 1 to 2 ([#22](https://github.com/fvdm/nodejs-europeana/pull/22)) ([adca08d2](https://github.com/fvdm/nodejs-europeana/commit/adca08d22302aaf57da84f71f5e1f40d51fe3ce4))
+  *  Bump actions/checkout from 2 to 3 ([#21](https://github.com/fvdm/nodejs-europeana/pull/21)) ([7f0a94a4](https://github.com/fvdm/nodejs-europeana/commit/7f0a94a4d8f82f64cb62482c43944fca67530ba1))
+  *  Bump actions/setup-node from 2 to 3 ([#20](https://github.com/fvdm/nodejs-europeana/pull/20)) ([074df1c4](https://github.com/fvdm/nodejs-europeana/commit/074df1c4599df27012e312cdb827789435d09c37))
+* **package:**  Only major version on dev dep ([d85eed34](https://github.com/fvdm/nodejs-europeana/commit/d85eed349ede94915773633fe0a17f352e5142dd))
+* **ci:**
+  *  Replaced Travis by Github action ([d8ecdc6e](https://github.com/fvdm/nodejs-europeana/commit/d8ecdc6edd90f5005830d76332bfe4b2ecbd242c))
+  *  Added Github configs ([6c7c76ad](https://github.com/fvdm/nodejs-europeana/commit/6c7c76add39e77e1b0f21cf134a0b4ead99a7b6c))
+* **dev:**
+  *  Clean up gitignore ([324d93a1](https://github.com/fvdm/nodejs-europeana/commit/324d93a19a007f8e968a3bdfd499817fb3298f6c))
+  *  Added editorconfig ([ccef820f](https://github.com/fvdm/nodejs-europeana/commit/ccef820fe5cc0ba442584ca05435d8479e17f4b4))
+  *  Added nyc output to gitignore ([13be029c](https://github.com/fvdm/nodejs-europeana/commit/13be029ce0daee37615556248e75fc3b7ebf4a9b))
+
+##### Documentation Changes
+
+* **readme:**
+  *  Removed default column from table ([6feb7841](https://github.com/fvdm/nodejs-europeana/commit/6feb784140433abca2e30bc7f86b1ebcb85cae26))
+  *  Fixed another typo ([58769565](https://github.com/fvdm/nodejs-europeana/commit/58769565eea9e2826530f6f6dd29d96cfa7334ca))
+  *  Fixed code block and typo ([421206a1](https://github.com/fvdm/nodejs-europeana/commit/421206a1bc2f1d49b6d3198751816dab5c62682a))
+  *  More useful documentation ([e59bdf09](https://github.com/fvdm/nodejs-europeana/commit/e59bdf09ea23e2528b7207529544968db45b023c))
+  *  Update API docs link ([9be66bc4](https://github.com/fvdm/nodejs-europeana/commit/9be66bc497526e8a65a4cd06f476d6921b56e8c5))
+  *  Cleanup and removed bitHound badges ([8e534807](https://github.com/fvdm/nodejs-europeana/commit/8e53480721415a4c69c76982fc93e65e63132ec0))
+*  Updated API key text ([b99be801](https://github.com/fvdm/nodejs-europeana/commit/b99be801e3b930cd43a7a90629bf7724d3391b64))
+
+##### Bug Fixes
+
+*  Read the fetch response stream only once ([892ef89c](https://github.com/fvdm/nodejs-europeana/commit/892ef89ccf508ab33f1f881ea351f7f878725b1c))
+*  Restored html error catching ([16b98ebd](https://github.com/fvdm/nodejs-europeana/commit/16b98ebddbaf027520d571492b00cf6e8a0e30a2))
+*  Timeout must be a number ([42de26ea](https://github.com/fvdm/nodejs-europeana/commit/42de26ead43c85a1c4d07fcab808007b0c42171f))
+*  upgrade httpreq from 0.4.24 to 0.5.1 ([faadbf11](https://github.com/fvdm/nodejs-europeana/commit/faadbf1117dd547e63c5d213341723809a9632b4))
+
+##### Other Changes
+
+*  HTTP/2 does not contain status texts ([c0f0be9e](https://github.com/fvdm/nodejs-europeana/commit/c0f0be9e84b8f689ba8b2a053fc6474943ccdb15))
+
+##### Refactors
+
+*  Use new X-Api-Key header ([#27](https://github.com/fvdm/nodejs-europeana/pull/27)) ([50400593](https://github.com/fvdm/nodejs-europeana/commit/50400593f232dd9fe792db57bdade98c25458d83))
+*  Removed generic errors ([eb3e4fb2](https://github.com/fvdm/nodejs-europeana/commit/eb3e4fb2e1e89458dca2e4a2af2a207722660156))
+*  Improved error handling ([80d82643](https://github.com/fvdm/nodejs-europeana/commit/80d8264382007539ef98b908b65159eaee05e4bb))
+*  Replaced httpreq dep with native fetch ([2875c0ad](https://github.com/fvdm/nodejs-europeana/commit/2875c0adc0e18e1af70d3dd1b45f6355f104f3e0))
+
 #### 1.1.3 (2017-12-12)
 
 ##### Chores
