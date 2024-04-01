@@ -15,6 +15,9 @@
     "url": "https://github.com/fvdm/nodejs-europeana/issues"
   },
   "main": "europeana.js",
+  "files": [
+    "SECURITY.md"
+  ],
   "dependencies": {},
   "devDependencies": {
     "dotest": "^2"
