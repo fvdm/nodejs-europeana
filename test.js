@@ -5,8 +5,11 @@ const pkg = require( './' );
 // $ WSKEY=abc123 npm test
 const config = {
   wskey: process.env.EUROPEANA_WSKEY || null,
-  timeout: process.env.EUROPEANA_TIMEOUT || 15000,
 };
+
+if ( process.env.EUROPEANA_TIMEOUT ) {
+  config.timeout = process.env.EUROPEANA_TIMEOUT;
+}
 
 if ( process.env.EUROPEANA_ENDPOINT ) {
   config.endpoint = process.env.EUROPEANA_ENDPOINT;
@@ -151,7 +154,7 @@ dotest.add( 'Error: request timeout', async test => {
 
   try {
     const tmp = new pkg( {
-      ...config,
+      wskey: null,
       timeout: 1,
     } );
 
