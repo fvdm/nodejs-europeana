@@ -51,7 +51,7 @@ You can request an API key **[here](https://pro.europeana.eu/pages/get-api)**
 param     | type   | default | description
 :---------|:-------|:--------|:-----------
 wskey     | string |         | API key
-[timeout] | number | `5000`  | Request timeout in ms
+[timeout] | number | `15000` | Request timeout in ms
 
 
 ```js
