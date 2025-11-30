@@ -48,10 +48,13 @@ europeana.search( {
 
 You can request an API key **[here](https://pro.europeana.eu/pages/get-api)**
 
-param     | type   | default | description
-:---------|:-------|:--------|:-----------
-wskey     | string |         | API key
-[timeout] | number | `15000` | Request timeout in ms
+param      | type   | default | description
+:----------|:-------|:--------|:-----------
+wskey      | string |         | API key
+[endpoint] | string | API*    | Override endpoint before the path
+[timeout]  | number | `15000` | Request timeout in ms
+
+\* Endpoint defaults to `https://api.europeana.eu`
 
 
 ```js

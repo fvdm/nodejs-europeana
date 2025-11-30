@@ -15,19 +15,22 @@ module.exports = class Europeana {
    * Configuration
    *
    * @param   {object}  o
-   * @param   {string}  o.wskey           API KEY
-   * @param   {number}  [o.timeout=15000]  Request timeout in ms
+   * @param   {string}  o.wskey                                API KEY
+   * @param   {string}  [o.endpoint=https://api.europeana.eu]  Override API endpoint
+   * @param   {number}  [o.timeout=15000]                      Request timeout in ms
    */
 
   constructor ( {
 
     wskey,
+    endpoint = 'https://api.europeana.eu',
     timeout = 15000,
 
   } ) {
 
     this.#config = {
       wskey,
+      endpoint,
       timeout,
     };
 
@@ -44,7 +47,7 @@ module.exports = class Europeana {
 
   async search ( parameters ) {
     return this.#talk( {
-      url: 'https://api.europeana.eu/record/v2/search.json',
+      path: '/record/v2/search.json',
       parameters,
     } );
   }
@@ -60,7 +63,7 @@ module.exports = class Europeana {
 
   async getRecord ( { id } ) {
     return this.#talk( {
-      url: `https://api.europeana.eu/record/v2/${id}.json`,
+      path: `/record/v2/${id}.json`,
     } );
   }
 
@@ -85,7 +88,7 @@ module.exports = class Europeana {
   /**
    * Communicate with API
    *
-   * @param   {string}  url              Request URL
+   * @param   {string}  path             Request path after {endpoint}
    * @param   {object}  [parameters]     Request parameters
    * @param   {number}  [timeout=15000]  Request timeout in ms
    *
@@ -94,7 +97,7 @@ module.exports = class Europeana {
 
   async #talk ( {
 
-    url,
+    path,
     parameters = {},
     timeout = this.#config.timeout,
 
@@ -111,8 +114,8 @@ module.exports = class Europeana {
     };
 
     parameters = new URLSearchParams( parameters );
-    url += '?' + parameters;
 
+    const url = this.#config.endpoint + path + '?' + parameters;
     const res = await fetch( url, options );
     const body = await res.text();
 
