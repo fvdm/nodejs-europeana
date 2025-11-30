@@ -3,13 +3,19 @@ const pkg = require( './' );
 
 // Setup
 // $ WSKEY=abc123 npm test
-const wskey = process.env.EUROPEANA_WSKEY || null;
-const timeout = process.env.EUROPEANA_TIMEOUT || 15000;
+const config = {
+  wskey: process.env.EUROPEANA_WSKEY || null,
+};
 
-const app = new pkg( {
-  wskey,
-  timeout,
-} );
+if ( process.env.EUROPEANA_TIMEOUT ) {
+  config.timeout = parseInt( process.env.EUROPEANA_TIMEOUT, 10 );
+}
+
+if ( process.env.EUROPEANA_ENDPOINT ) {
+  config.endpoint = process.env.EUROPEANA_ENDPOINT;
+}
+
+const app = new pkg( config );
 
 
 dotest.add( 'Interface', test => {
@@ -93,11 +99,7 @@ dotest.add( 'API error - HTML', async test => {
   let data;
 
   try {
-    const tmp = new pkg( {
-      wskey,
-    } );
-
-    data = await tmp.getRecord( {
+    data = await app.getRecord( {
       id: '-',
     } );
   }
@@ -150,7 +152,7 @@ dotest.add( 'Error: request timeout', async test => {
 
   try {
     const tmp = new pkg( {
-      wskey,
+      wskey: null,
       timeout: 1,
     } );
 
