@@ -1,7 +1,7 @@
 /*
 Name:         europeana.js
 Description:  Unofficial Node.js module for the Europeana API
-Author:       Franklin (https://fvdm.com)
+Author:       Franklin (https://frankl.in)
 Source:       https://github.com/fvdm/nodejs-europeana
 License:      Public Domain / Unlicense (see LICENSE file)
 */
