@@ -8,6 +8,9 @@ License:      Public Domain / Unlicense (see LICENSE file)
 
 module.exports = class Europeana {
 
+  #config = {};
+
+
   /**
    * Configuration
    *
@@ -23,7 +26,7 @@ module.exports = class Europeana {
 
   } ) {
 
-    this._config = {
+    this.#config = {
       wskey,
       timeout,
     };
@@ -40,7 +43,7 @@ module.exports = class Europeana {
    */
 
   async search ( parameters ) {
-    return this._talk( {
+    return this.#talk( {
       url: 'https://api.europeana.eu/record/v2/search.json',
       parameters,
     } );
@@ -56,7 +59,7 @@ module.exports = class Europeana {
    */
 
   async getRecord ( { id } ) {
-    return this._talk( {
+    return this.#talk( {
       url: `https://api.europeana.eu/record/v2/${id}.json`,
     } );
   }
@@ -89,11 +92,11 @@ module.exports = class Europeana {
    * @return  {Promise<object>}
    */
 
-  async _talk ( {
+  async #talk ( {
 
     url,
     parameters = {},
-    timeout = this._config.timeout,
+    timeout = this.#config.timeout,
 
   } ) {
 
@@ -103,7 +106,7 @@ module.exports = class Europeana {
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'nodejs-europeana',
-        'X-Api-Key': this._config.wskey,
+        'X-Api-Key': this.#config.wskey,
       },
     };
 
