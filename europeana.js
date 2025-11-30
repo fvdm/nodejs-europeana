@@ -125,7 +125,7 @@ module.exports = class Europeana {
         429: 'The request could be served because the application has reached its usage limit.',
         500: 'Internal Server Error. Something has gone wrong, please report to us.',
       };
- 
+
       const msg = errors[res.status] || res.statusText;
       const error = new Error( `API error: ${msg}` );
 
