@@ -99,9 +99,7 @@ dotest.add( 'API error - HTML', async test => {
   let data;
 
   try {
-    const tmp = new pkg( config );
-
-    data = await tmp.getRecord( {
+    data = await app.getRecord( {
       id: '-',
     } );
   }
