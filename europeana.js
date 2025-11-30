@@ -28,14 +28,6 @@ module.exports = class Europeana {
       timeout,
     };
 
-    this._errors = {
-      400: 'The request sent by the client was syntactically incorrect',
-      401: 'Authentication credentials were missing or authentication failed.',
-      404: 'The requested record was not found.',
-      429: 'The request could be served because the application has reached its usage limit.',
-      500: 'Internal Server Error. Something has gone wrong, please report to us.',
-    };
-
   }
 
 
@@ -123,7 +115,15 @@ module.exports = class Europeana {
 
     // HTML error
     if ( body.match( /^</ ) ) {
-      const msg = this._errors[res.status] || res.statusText;
+      const errors = {
+        400: 'The request sent by the client was syntactically incorrect',
+        401: 'Authentication credentials were missing or authentication failed.',
+        404: 'The requested record was not found.',
+        429: 'The request could be served because the application has reached its usage limit.',
+        500: 'Internal Server Error. Something has gone wrong, please report to us.',
+      };
+ 
+      const msg = errors[res.status] || res.statusText;
       const error = new Error( `API error: ${msg}` );
 
       error.code = res.status;
