@@ -129,7 +129,7 @@ module.exports = class Europeana {
         500: 'Internal Server Error. Something has gone wrong, please report to us.',
       };
 
-      const msg = errors[res.status] || res.statusText;
+      const msg = errors[res.status];
       const error = new Error( `API error: ${msg}` );
 
       error.code = res.status;
