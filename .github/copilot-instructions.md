@@ -5,7 +5,7 @@
 This is `europeana`, an unofficial Node.js module for the Europeana API. It enables searching and looking up art in various European archives. The repository is a small, single-file Node.js package with minimal dependencies.
 
 - **Type**: Node.js npm package
-- **Main file**: `europeana.js` (single source file, ~155 lines)
+- **Main file**: `europeana.js` (single source file)
 - **Test file**: `test.js` (single test file using dotest framework)
 - **License**: Unlicense (Public Domain)
 - **Node.js version**: Requires Node.js 18 or higher (`engines.node: ">=18"`)
@@ -48,7 +48,7 @@ This command runs:
 1. ESLint (automatically via dotest)
 2. Test suite with coverage reporting
 
-**Important**: Tests require the `EUROPEANA_WSKEY` environment variable to be set with a valid API key for full coverage. Without it, API tests will fail with network errors. The CI workflow uses secrets for this.
+**Important**: Tests require the `EUROPEANA_WSKEY` environment variable to be set with a valid API key for full coverage. Without it, API tests will fail with network errors. The CI workflow uses secrets for this. API keys can be requested at https://pro.europeana.eu/pages/get-api (see README.md for details).
 
 ### Run Linting Only
 ```bash
