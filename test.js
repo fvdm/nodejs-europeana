@@ -8,7 +8,7 @@ const config = {
 };
 
 if ( process.env.EUROPEANA_TIMEOUT ) {
-  config.timeout = process.env.EUROPEANA_TIMEOUT;
+  config.timeout = parseInt( process.env.EUROPEANA_TIMEOUT, 10 );
 }
 
 if ( process.env.EUROPEANA_ENDPOINT ) {
