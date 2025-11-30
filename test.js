@@ -32,9 +32,9 @@ dotest.add( 'search', async test => {
     test()
       .isObject( 'fail', 'data', data )
       .isNotEmpty( 'fail', 'data', data )
-      .isExactly( 'fail', 'data.success', data && data.success, true )
-      .isArray( 'fail', 'data.items', data && data.items )
-      .isNotEmpty( 'warn', 'data.items', data && data.items )
+      .isExactly( 'fail', 'data.success', data?.success, true )
+      .isArray( 'fail', 'data.items', data?.items )
+      .isNotEmpty( 'warn', 'data.items', data?.items )
       .done()
     ;
   }
@@ -54,9 +54,9 @@ dotest.add( 'getRecord', async test => {
     test()
       .isObject( 'fail', 'data', data )
       .isNotEmpty( 'fail', 'data', data )
-      .isExactly( 'fail', 'data.success', data && data.success, true )
-      .isObject( 'fail', 'data.object', data && data.object )
-      .isNotEmpty( 'warn', 'data.object', data && data.object )
+      .isExactly( 'fail', 'data.success', data?.success, true )
+      .isObject( 'fail', 'data.object', data?.object )
+      .isNotEmpty( 'warn', 'data.object', data?.object )
       .done()
     ;
   }
@@ -109,8 +109,8 @@ dotest.add( 'API error - HTML', async test => {
   finally {
     test()
       .isError( 'fail', 'error', error )
-      .isNotEmpty( 'fail', 'error.message', error && error.message )
-      .isExactly( 'fail', 'error.code', error && error.code, 404 )
+      .isNotEmpty( 'fail', 'error.message', error?.message )
+      .isExactly( 'fail', 'error.code', error?.code, 404 )
       .isUndefined( 'fail', 'data', data )
       .done()
     ;
@@ -135,8 +135,8 @@ dotest.add( 'API error - JSON', async test => {
   finally {
     test()
       .isError( 'fail', 'error', error )
-      .isNotEmpty( 'fail', 'error.message', error && error.message )
-      .isExactly( 'fail', 'error.code', error && error.code, 404 )
+      .isNotEmpty( 'fail', 'error.message', error?.message )
+      .isExactly( 'fail', 'error.code', error?.code, 404 )
       .isUndefined( 'fail', 'data', data )
       .done()
     ;
@@ -166,7 +166,7 @@ dotest.add( 'Error: request timeout', async test => {
   finally {
     test()
       .isError( 'fail', 'error', error )
-      .isExactly( 'fail', 'error.name', error && error.name, 'TimeoutError' )
+      .isExactly( 'fail', 'error.name', error?.name, 'TimeoutError' )
       .isUndefined( 'fail', 'data', data )
       .done()
     ;
