@@ -15,9 +15,9 @@ const app = new pkg( {
 dotest.add( 'Interface', test => {
   test()
     .isClass( 'fail', 'exports', pkg )
-    .isFunction( 'fail', 'search', app && app.search )
-    .isFunction( 'fail', 'getRecord', app && app.getRecord )
-    .isFunction( 'fail', 'getRecordThumbnailUrl', app && app.getRecordThumbnailUrl )
+    .isAsyncFunction( 'fail', 'search', app?.search )
+    .isAsyncFunction( 'fail', 'getRecord', app?.getRecord )
+    .isAsyncFunction( 'fail', 'getRecordThumbnailUrl', app?.getRecordThumbnailUrl )
     .done()
   ;
 } );
