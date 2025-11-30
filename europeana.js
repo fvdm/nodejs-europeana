@@ -16,7 +16,7 @@ module.exports = class Europeana {
    *
    * @param   {object}  o
    * @param   {string}  o.wskey           API KEY
-   * @param   {number}  o.timeout=15000]  Request timeout in ms
+   * @param   {number}  [o.timeout=15000]  Request timeout in ms
    */
 
   constructor ( {
